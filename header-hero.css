@@ -1,0 +1,321 @@
+/* Header + Hero — refinamento editorial v2 */
+
+.site-header {
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 6.25rem;
+  padding: 1.45rem var(--page-pad);
+  border-bottom: 1px solid rgba(252, 250, 247, 0.1);
+  background: linear-gradient(180deg, rgba(36, 25, 20, 0.34), rgba(36, 25, 20, 0));
+}
+
+.brand {
+  position: relative;
+  isolation: isolate;
+  gap: 0.95rem;
+}
+
+.brand::after {
+  position: absolute;
+  right: -1.65rem;
+  bottom: -0.5rem;
+  left: 3.95rem;
+  height: 1px;
+  content: "";
+  opacity: 0;
+  background: currentColor;
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: opacity 180ms ease, transform 280ms cubic-bezier(0.2, 0.65, 0.25, 1);
+}
+
+.brand:hover::after,
+.brand:focus-visible::after {
+  opacity: 0.55;
+  transform: scaleX(1);
+}
+
+.brand-mark {
+  width: 3rem;
+  height: 3rem;
+  border-color: rgba(252, 250, 247, 0.62);
+  background: rgba(252, 250, 247, 0.035);
+  box-shadow: inset 0 0 0 1px rgba(36, 25, 20, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.brand-name {
+  gap: 0.06rem;
+}
+
+.brand-name strong {
+  font-size: 1.12rem;
+  line-height: 1;
+}
+
+.brand-name small {
+  margin-top: 0.32rem;
+  color: rgba(252, 250, 247, 0.68);
+  letter-spacing: 0.3em;
+}
+
+.hero {
+  min-height: min(980px, 100svh);
+  background:
+    radial-gradient(circle at 9% 82%, rgba(180, 135, 99, 0.13), transparent 29rem),
+    linear-gradient(112deg, rgba(74, 48, 38, 0.23), transparent 45%),
+    var(--ink);
+}
+
+.hero::before {
+  position: absolute;
+  z-index: 3;
+  top: 7.75rem;
+  bottom: 3rem;
+  left: var(--page-pad);
+  width: 1px;
+  content: "";
+  background: linear-gradient(180deg, rgba(252, 250, 247, 0.26), rgba(252, 250, 247, 0));
+}
+
+.hero-copy {
+  top: 52%;
+  left: calc(var(--page-pad) + clamp(1.8rem, 3.2vw, 3.75rem));
+  width: min(45vw, 670px);
+  transform: translateY(-43%);
+}
+
+.hero-copy .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: clamp(1.55rem, 2.5vw, 2.2rem);
+  color: rgba(252, 250, 247, 0.68);
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+}
+
+.hero-copy .eyebrow::before {
+  width: 2.4rem;
+  height: 1px;
+  flex: 0 0 auto;
+  content: "";
+  background: var(--accent);
+}
+
+.hero h1 {
+  max-width: 8.7ch;
+  font-size: clamp(4.7rem, 7.5vw, 8.35rem);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.047em;
+  text-wrap: balance;
+}
+
+.hero-intro {
+  max-width: 28rem;
+  margin: clamp(1.8rem, 3vw, 2.5rem) 0 0;
+  color: rgba(252, 250, 247, 0.72);
+  font-family: var(--sans);
+  font-size: clamp(0.98rem, 1.18vw, 1.12rem);
+  font-weight: 400;
+  line-height: 1.72;
+  letter-spacing: -0.01em;
+}
+
+.hero-media {
+  top: 1.25rem;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 48.5%;
+  overflow: hidden;
+  border: 1px solid rgba(252, 250, 247, 0.11);
+  border-radius: var(--radius-lg);
+  background: #31241e;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.18);
+}
+
+.hero-media::after {
+  background:
+    linear-gradient(90deg, rgba(36, 25, 20, 0.62) 0%, rgba(36, 25, 20, 0.11) 24%, transparent 48%),
+    linear-gradient(180deg, rgba(36, 25, 20, 0.16), transparent 34%, rgba(36, 25, 20, 0.18));
+}
+
+.hero-media img {
+  object-position: center 29%;
+  transform: scale(1.012);
+}
+
+.dot-field {
+  top: auto;
+  bottom: -9rem;
+  left: -8rem;
+  width: 31rem;
+  height: 31rem;
+  opacity: 0.085;
+  background-size: 68px 68px;
+}
+
+@media (min-width: 1400px) {
+  .hero-copy {
+    left: calc(var(--page-pad) + 4.25rem);
+  }
+
+  .hero-media {
+    width: 49%;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    min-height: 5.75rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom-color: rgba(252, 250, 247, 0.08);
+    background: linear-gradient(180deg, rgba(36, 25, 20, 0.76), rgba(36, 25, 20, 0));
+  }
+
+  .hero {
+    padding-bottom: clamp(4.75rem, 11vw, 6.5rem);
+    background:
+      radial-gradient(circle at 86% 91%, rgba(180, 135, 99, 0.1), transparent 20rem),
+      var(--ink);
+  }
+
+  .hero::before {
+    display: none;
+  }
+
+  .hero-media {
+    order: 1;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: calc(100% - 2rem);
+    height: min(69svh, 720px);
+    min-height: 500px;
+    margin: 1rem 1rem 0;
+    border-radius: 1.15rem;
+  }
+
+  .hero-media::after {
+    background:
+      linear-gradient(180deg, rgba(36, 25, 20, 0.06), transparent 46%, rgba(36, 25, 20, 0.76)),
+      linear-gradient(90deg, rgba(36, 25, 20, 0.12), transparent 30%);
+  }
+
+  .hero-copy {
+    top: auto;
+    left: auto;
+    order: 2;
+    width: auto;
+    max-width: 46rem;
+    margin-top: clamp(-5.8rem, -8vw, -4.5rem);
+    padding: 0 var(--page-pad);
+    transform: none;
+  }
+
+  .hero-copy .eyebrow {
+    margin-bottom: 1.35rem;
+  }
+
+  .hero h1 {
+    max-width: 9.3ch;
+    font-size: clamp(3.75rem, 12.7vw, 6.5rem);
+    line-height: 0.88;
+  }
+
+  .hero-intro {
+    max-width: 31rem;
+    margin-top: 1.6rem;
+    color: rgba(252, 250, 247, 0.74);
+  }
+
+  .dot-field {
+    right: -9rem;
+    bottom: -10rem;
+    left: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    min-height: 5.25rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .brand {
+    gap: 0.75rem;
+  }
+
+  .brand::after {
+    display: none;
+  }
+
+  .brand-mark {
+    width: 2.7rem;
+    height: 2.7rem;
+  }
+
+  .brand-name strong {
+    font-size: 0.98rem;
+  }
+
+  .brand-name small {
+    margin-top: 0.25rem;
+    font-size: 0.51rem;
+  }
+
+  .hero {
+    padding-bottom: 4.75rem;
+  }
+
+  .hero-media {
+    width: calc(100% - 1rem);
+    height: 64svh;
+    min-height: 470px;
+    margin: 0.5rem 0.5rem 0;
+    border-radius: 0.95rem;
+  }
+
+  .hero-media img {
+    object-position: center 25%;
+  }
+
+  .hero-copy {
+    margin-top: -4.35rem;
+    padding: 0 1.25rem;
+  }
+
+  .hero-copy .eyebrow {
+    gap: 0.65rem;
+    margin-bottom: 1.15rem;
+    font-size: 0.59rem;
+    letter-spacing: 0.2em;
+  }
+
+  .hero-copy .eyebrow::before {
+    width: 1.8rem;
+  }
+
+  .hero h1 {
+    max-width: 9ch;
+    font-size: clamp(3.45rem, 15vw, 5.1rem);
+    line-height: 0.9;
+    letter-spacing: -0.038em;
+  }
+
+  .hero-intro {
+    max-width: 28rem;
+    margin-top: 1.4rem;
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand::after {
+    transition: none;
+  }
+}
