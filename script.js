@@ -179,8 +179,31 @@ function installWhatsappFloat() {
   document.body.appendChild(floatingWhatsapp);
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", installWhatsappFloat, { once: true });
-} else {
-  installWhatsappFloat();
+function scheduleAfterLoad(callback, timeout = 1500) {
+  const schedule = () => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback, { timeout });
+      return;
+    }
+
+    window.setTimeout(callback, 0);
+  };
+
+  if (document.readyState === "complete") {
+    schedule();
+  } else {
+    window.addEventListener("load", schedule, { once: true });
+  }
+}
+
+// O CTA flutuante é redundante no primeiro viewport: cabeçalho e hero já oferecem WhatsApp.
+// Adiá-lo evita injeção de CSS/DOM durante o caminho crítico de renderização.
+scheduleAfterLoad(installWhatsappFloat, 1200);
+
+if ("serviceWorker" in navigator && window.isSecureContext) {
+  scheduleAfterLoad(() => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {
+      // Cache progressivo é uma melhoria opcional; falhas não podem afetar a navegação.
+    });
+  }, 2500);
 }
