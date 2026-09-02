@@ -1,0 +1,128 @@
+name: Security checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "17 9 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  static-security:
+    name: Static security guardrails
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Reject insecure or dangerous browser patterns
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if grep -RInE --exclude-dir=.git --include='*.html' --include='*.css' --include='*.js' \
+            '(src|href)[[:space:]]*=[[:space:]]*["'"']http://|url\([[:space:]]*["'"']?http://' .; then
+            echo "Insecure http:// asset or link detected. Use HTTPS."
+            exit 1
+          fi
+
+          if grep -RInE --exclude-dir=.git --include='*.html' \
+            '[[:space:]]on[a-zA-Z]+[[:space:]]*=' .; then
+            echo "Inline JavaScript event handler detected. Use addEventListener instead."
+            exit 1
+          fi
+
+          if grep -RInE --exclude-dir=.git --include='*.js' \
+            'eval[[:space:]]*\(|new[[:space:]]+Function[[:space:]]*\(|document\.write[[:space:]]*\(|javascript:' .; then
+            echo "Dangerous JavaScript execution primitive detected."
+            exit 1
+          fi
+
+      - name: Detect obvious committed credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if grep -RInE --exclude-dir=.git --exclude='*.md' --exclude='security.yml' \
+            --include='*.html' --include='*.js' --include='*.json' --include='*.yml' --include='*.yaml' --include='*.env*' \
+            -- '-----BEGIN ([A-Z0-9 ]+)?PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|sk-(proj-)?[A-Za-z0-9_-]{20,}' .; then
+            echo "Possible credential committed to the repository. Remove it and rotate the credential."
+            exit 1
+          fi
+
+      - name: Validate external links and form policy
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          failures = []
+
+          class SecurityParser(HTMLParser):
+              def __init__(self, path):
+                  super().__init__()
+                  self.path = path
+
+              def handle_starttag(self, tag, attrs):
+                  values = dict(attrs)
+
+                  if tag == "form":
+                      failures.append(
+                          f"{self.path}: form detected. Add forms only with a reviewed server-side endpoint, validation, rate limiting and bot protection."
+                      )
+
+                  if tag != "a" or values.get("target") != "_blank":
+                      return
+
+                  href = values.get("href", "")
+                  scheme = urlparse(href).scheme
+                  if scheme not in {"http", "https"}:
+                      return
+
+                  rel = set((values.get("rel") or "").lower().split())
+                  if not {"noopener", "noreferrer"}.issubset(rel):
+                      failures.append(
+                          f"{self.path}: target=_blank link is missing rel=\"noopener noreferrer\": {href}"
+                      )
+
+          for path in Path(".").rglob("*.html"):
+              if ".git" in path.parts:
+                  continue
+              parser = SecurityParser(path)
+              parser.feed(path.read_text(encoding="utf-8"))
+
+          if failures:
+              raise SystemExit("\n".join(failures))
+          PY
+
+  codeql:
+    name: CodeQL JavaScript analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          languages: javascript-typescript
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
