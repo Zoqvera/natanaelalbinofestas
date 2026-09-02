@@ -1,0 +1,323 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Identidade cromática */
+  --ink: #241914;
+  --ink-soft: #4a3026;
+  --paper: #f1eae2;
+  --paper-light: #fcfaf7;
+  --mist: #b9afa5;
+  --accent: #b48763;
+  --accent-strong: #8f6246;
+  --line: rgba(36, 25, 20, 0.16);
+  --white-line: rgba(252, 250, 247, 0.24);
+
+  /* Tipografia */
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Sistema de forma */
+  --radius-sm: 0.55rem;
+  --radius-md: 0.9rem;
+  --radius-lg: 1.35rem;
+  --radius-pill: 999px;
+
+  /* Profundidade */
+  --shadow-soft: 0 1.25rem 3.5rem rgba(36, 25, 20, 0.08);
+  --shadow-lift: 0 1.5rem 4rem rgba(36, 25, 20, 0.12);
+
+  /* Ritmo */
+  --content-max: 90rem;
+  --reading-max: 46rem;
+}
+
+html {
+  background: var(--paper-light);
+}
+
+body {
+  color: var(--ink);
+  background: var(--paper-light);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.97rem + 0.1vw, 1.0625rem);
+  line-height: 1.68;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--paper-light);
+  background: var(--ink-soft);
+}
+
+/* Marca */
+.brand {
+  gap: 0.9rem;
+}
+
+.brand-mark {
+  border-color: rgba(252, 250, 247, 0.72);
+  background: rgba(252, 250, 247, 0.035);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.brand-name strong {
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.brand-name small {
+  margin-top: 0.3rem;
+  font-size: 0.56rem;
+  letter-spacing: 0.25em;
+}
+
+/* Hierarquia tipográfica */
+.eyebrow,
+.footer-heading,
+.course-closing-label,
+.course-facts span,
+.course-payment-note {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.hero h1,
+.manifesto-copy h2,
+.whatsapp-cta h2,
+.contact h2,
+.course-title-main,
+.course-heading h2 em,
+.course-learning-heading h3,
+.course-module h4,
+.course-closing p:last-child,
+.trust-intro h2,
+.trust-list strong,
+.essence-story h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.hero h1 {
+  line-height: 0.88;
+}
+
+.hero-intro {
+  max-width: 32rem;
+  color: rgba(252, 250, 247, 0.78);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.manifesto-copy h2,
+.whatsapp-cta h2,
+.trust-intro h2 {
+  line-height: 0.97;
+}
+
+.manifesto-copy h2.concept-heading {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.manifesto-text {
+  max-width: var(--reading-max);
+}
+
+.manifesto-signature {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+/* Superfícies */
+.hero,
+.site-footer,
+.contact {
+  background-color: var(--ink);
+}
+
+.identity-story,
+.whatsapp-cta,
+.course-closing {
+  background-color: var(--ink-soft);
+}
+
+.manifesto,
+.trust-section {
+  background-color: var(--paper);
+}
+
+.course {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(180, 135, 99, 0.1) 0 8rem, transparent 8.1rem),
+    radial-gradient(circle at 4% 74%, rgba(36, 25, 20, 0.05) 0 5rem, transparent 5.1rem),
+    var(--paper-light);
+}
+
+/* Fotografia e portfólio */
+.essence-image {
+  border-color: rgba(36, 25, 20, 0.12);
+  border-radius: var(--radius-md);
+  background: rgba(252, 250, 247, 0.86);
+  box-shadow: var(--shadow-soft);
+}
+
+.essence-image::after {
+  border-color: rgba(252, 250, 247, 0.58);
+  border-radius: calc(var(--radius-md) - 0.25rem);
+}
+
+.essence-story:hover .essence-image {
+  border-color: rgba(143, 98, 70, 0.26);
+  box-shadow: var(--shadow-lift);
+}
+
+.essence-image img {
+  border-radius: calc(var(--radius-md) - 0.3rem);
+}
+
+.essence-story figcaption p,
+.course-copy p,
+.course-module p,
+.course-learning-heading > p,
+.trust-list p {
+  color: rgba(36, 25, 20, 0.66);
+}
+
+/* Curso */
+.course-portrait {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.course-portrait::after {
+  border-radius: calc(var(--radius-lg) - 0.45rem);
+}
+
+.course-portrait img {
+  border-radius: var(--radius-lg);
+}
+
+.course-facts strong,
+.course-module-number,
+.course-heading h2 em {
+  color: var(--accent-strong);
+}
+
+.course-module {
+  background: var(--paper-light);
+}
+
+.course-module-number {
+  border-color: rgba(143, 98, 70, 0.48);
+}
+
+/* CTAs */
+.whatsapp-button,
+.consent-button {
+  border-radius: var(--radius-pill);
+}
+
+.whatsapp-button {
+  border-color: var(--paper-light);
+  color: var(--ink-soft);
+  background: var(--paper-light);
+  box-shadow: 0 0.85rem 2rem rgba(36, 25, 20, 0.12);
+}
+
+.whatsapp-button:hover,
+.whatsapp-button:focus-visible {
+  color: var(--paper-light);
+  background: transparent;
+}
+
+.course-button {
+  border-color: var(--ink-soft);
+  color: var(--paper-light);
+  background: var(--ink-soft);
+  box-shadow: 0 0.9rem 2.2rem rgba(36, 25, 20, 0.22);
+}
+
+.course-button::before {
+  background: var(--accent-strong);
+}
+
+.course-button:hover,
+.course-button:focus-visible {
+  border-color: var(--accent-strong);
+  color: var(--paper-light);
+  background: var(--ink-soft);
+  box-shadow: 0 1.1rem 2.6rem rgba(36, 25, 20, 0.28);
+}
+
+.course-button:hover::after,
+.course-button:focus-visible::after {
+  color: var(--ink-soft);
+  background: var(--paper-light);
+}
+
+.course-button:focus-visible {
+  outline-color: rgba(180, 135, 99, 0.42);
+}
+
+/* Elementos utilitários */
+.consent-banner {
+  border-color: rgba(252, 250, 247, 0.2);
+  border-radius: var(--radius-md);
+  background: rgba(36, 25, 20, 0.98);
+  box-shadow: var(--shadow-lift);
+}
+
+.consent-button-primary {
+  color: var(--ink);
+  background: var(--paper-light);
+}
+
+.site-footer {
+  border-top-color: rgba(252, 250, 247, 0.18);
+}
+
+.footer-lead > p {
+  color: rgba(252, 250, 247, 0.62);
+}
+
+/* Interação e acessibilidade */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    background: linear-gradient(180deg, rgba(36, 25, 20, 0.82), transparent);
+  }
+
+  .hero-media::after {
+    background: linear-gradient(180deg, rgba(36, 25, 20, 0.08), transparent 58%, var(--ink));
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 1rem;
+  }
+
+  .hero h1 {
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+
+  .brand-name strong {
+    font-size: 1rem;
+  }
+}
