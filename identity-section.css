@@ -1,0 +1,243 @@
+/* Seção “Arte, técnica e identidade” — assinatura editorial */
+
+.identity-story {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(7rem, 12vw, 11rem);
+  padding-bottom: clamp(7rem, 12vw, 11rem);
+  background:
+    radial-gradient(circle at 88% 15%, rgba(180, 135, 99, 0.14), transparent 22rem),
+    linear-gradient(135deg, rgba(36, 25, 20, 0.08), transparent 38%),
+    var(--ink-soft);
+}
+
+.identity-story::before {
+  position: absolute;
+  z-index: -1;
+  top: clamp(5rem, 9vw, 8rem);
+  right: clamp(-7rem, -4vw, -3rem);
+  width: clamp(16rem, 26vw, 28rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(252, 250, 247, 0.1);
+  border-radius: 50%;
+  content: "";
+  box-shadow:
+    0 0 0 clamp(2.5rem, 4vw, 4.5rem) rgba(252, 250, 247, 0.025),
+    0 0 0 clamp(5rem, 8vw, 8rem) rgba(252, 250, 247, 0.018);
+}
+
+.identity-story::after {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: clamp(2.5rem, 5vw, 4.5rem);
+  width: clamp(4rem, 8vw, 7rem);
+  height: 1px;
+  content: "";
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.identity-story .essence-heading {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+}
+
+.identity-story .manifesto-copy {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.58fr) minmax(0, 1.42fr);
+  gap: clamp(3rem, 8vw, 9rem);
+  align-items: start;
+}
+
+.identity-story .manifesto-copy h2.concept-heading {
+  position: sticky;
+  top: 8.5rem;
+  display: block;
+  max-width: 8ch;
+  margin: 0;
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(2.9rem, 5.2vw, 5.4rem);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.045em;
+  text-transform: none;
+  white-space: normal;
+}
+
+.identity-story .manifesto-copy h2.concept-heading::before {
+  display: block;
+  margin-bottom: 1.35rem;
+  color: rgba(252, 250, 247, 0.54);
+  content: "ESSÊNCIA";
+  font-family: var(--sans);
+  font-size: 0.61rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.22em;
+}
+
+.identity-story .manifesto-copy h2.concept-heading::after {
+  display: block;
+  width: 3.2rem;
+  height: 1px;
+  margin-top: 1.6rem;
+  content: "";
+  background: var(--accent);
+}
+
+.identity-story .manifesto-text {
+  max-width: 48rem;
+  margin-top: 0;
+  color: rgba(252, 250, 247, 0.74);
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.82;
+}
+
+.identity-story .manifesto-text p {
+  max-width: 43rem;
+  margin-bottom: 1.55rem;
+}
+
+.identity-story .manifesto-text p:first-child {
+  max-width: 38rem;
+  margin-bottom: 2.5rem;
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 2.65vw, 2.65rem);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.026em;
+}
+
+.identity-story .manifesto-text p:nth-of-type(2),
+.identity-story .manifesto-text p:nth-of-type(3),
+.identity-story .manifesto-text p:nth-of-type(4),
+.identity-story .manifesto-text p:nth-of-type(5) {
+  padding-left: clamp(1.15rem, 2vw, 2rem);
+  border-left: 1px solid rgba(252, 250, 247, 0.12);
+}
+
+.identity-story .manifesto-signature {
+  position: relative;
+  max-width: 13ch;
+  margin: clamp(3.5rem, 6vw, 5.5rem) 0;
+  padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(2rem, 4vw, 3.25rem) clamp(2rem, 4vw, 3.5rem);
+  border-top: 1px solid rgba(252, 250, 247, 0.14);
+  border-right: 0;
+  border-bottom: 1px solid rgba(252, 250, 247, 0.14);
+  border-left: 1px solid var(--accent);
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 4.35vw, 4.75rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  white-space: normal;
+}
+
+.identity-story .manifesto-signature::before {
+  position: absolute;
+  top: 1.2rem;
+  left: clamp(0.7rem, 1.5vw, 1.25rem);
+  color: var(--accent);
+  content: "“";
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.identity-story .manifesto-text p:last-child {
+  max-width: 34rem;
+  margin-top: 2.2rem;
+  color: rgba(252, 250, 247, 0.92);
+  font-family: var(--serif);
+  font-size: clamp(1.28rem, 1.8vw, 1.7rem);
+  line-height: 1.42;
+  letter-spacing: -0.018em;
+}
+
+@media (max-width: 900px) {
+  .identity-story {
+    padding-top: clamp(6rem, 12vw, 8rem);
+    padding-bottom: clamp(6rem, 12vw, 8rem);
+  }
+
+  .identity-story .manifesto-copy {
+    grid-template-columns: 1fr;
+    gap: clamp(2.75rem, 7vw, 4.5rem);
+  }
+
+  .identity-story .manifesto-copy h2.concept-heading {
+    position: relative;
+    top: auto;
+    max-width: 10ch;
+    font-size: clamp(3rem, 9vw, 5rem);
+  }
+
+  .identity-story .manifesto-text {
+    max-width: 44rem;
+  }
+
+  .identity-story::before {
+    top: 3rem;
+    right: -10rem;
+    width: 24rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .identity-story {
+    padding-top: 5.75rem;
+    padding-bottom: 6rem;
+  }
+
+  .identity-story::after {
+    right: 1.25rem;
+    bottom: 2rem;
+    width: 3.5rem;
+  }
+
+  .identity-story .manifesto-copy {
+    gap: 2.8rem;
+  }
+
+  .identity-story .manifesto-copy h2.concept-heading {
+    max-width: 9ch;
+    font-size: clamp(2.75rem, 13vw, 4rem);
+    line-height: 0.95;
+  }
+
+  .identity-story .manifesto-copy h2.concept-heading::before {
+    margin-bottom: 1rem;
+    font-size: 0.57rem;
+  }
+
+  .identity-story .manifesto-text {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .identity-story .manifesto-text p:first-child {
+    margin-bottom: 2.1rem;
+    font-size: clamp(1.55rem, 7.4vw, 2.05rem);
+    line-height: 1.25;
+  }
+
+  .identity-story .manifesto-text p:nth-of-type(2),
+  .identity-story .manifesto-text p:nth-of-type(3),
+  .identity-story .manifesto-text p:nth-of-type(4),
+  .identity-story .manifesto-text p:nth-of-type(5) {
+    padding-left: 1rem;
+  }
+
+  .identity-story .manifesto-signature {
+    max-width: 12ch;
+    margin: 3.25rem 0;
+    padding: 2rem 0 2rem 1.65rem;
+    font-size: clamp(2.15rem, 11vw, 3.35rem);
+  }
+
+  .identity-story .manifesto-signature::before {
+    left: 0.55rem;
+  }
+}
