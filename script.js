@@ -2,6 +2,31 @@ const year = document.querySelector("[data-year]");
 
 if (year) year.textContent = String(new Date().getFullYear());
 
+const COVERAGE = Object.freeze({
+  national: {
+    label: "Todo o Brasil",
+    href: "/decoracao-de-festas-no-brasil/",
+    description: "Projetos autorais de decoração podem ser contratados em todo o país, conforme disponibilidade e logística de cada evento.",
+  },
+  priorityCities: [
+    {
+      label: "Uberlândia",
+      href: "/decoracao-de-festas-em-uberlandia/",
+      description: "Uma das cidades com maior presença de projetos de Natanael Albino.",
+    },
+    {
+      label: "São Paulo",
+      href: "/decoracao-de-festas-em-sao-paulo/",
+      description: "Atendimento para celebrações e projetos autorais na capital paulista.",
+    },
+    {
+      label: "Rio de Janeiro",
+      href: "/decoracao-de-festas-no-rio-de-janeiro/",
+      description: "Atendimento para celebrações e projetos autorais na capital fluminense.",
+    },
+  ],
+});
+
 const footerMeta = document.querySelector(".footer-meta");
 
 if (footerMeta && !footerMeta.querySelector(".footer-credit")) {
@@ -35,6 +60,147 @@ if (footerMeta && !footerMeta.querySelector(".footer-credit")) {
   document.head.appendChild(footerCreditStyles);
   footerMeta.prepend(footerCredit);
 }
+
+function createCoverageCard({ index, title, description, href, linkLabel }) {
+  const article = document.createElement("article");
+  article.className = "intent-card";
+
+  const indexElement = document.createElement("span");
+  indexElement.className = "intent-index";
+  indexElement.setAttribute("aria-hidden", "true");
+  indexElement.textContent = index;
+
+  const copy = document.createElement("div");
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = description;
+
+  copy.append(heading, paragraph);
+
+  const actions = document.createElement("div");
+  actions.className = "intent-actions";
+
+  const link = document.createElement("a");
+  link.className = "intent-primary";
+  link.href = href;
+  link.textContent = linkLabel;
+  actions.appendChild(link);
+
+  article.append(indexElement, copy, actions);
+  return article;
+}
+
+function installCoverageSection() {
+  if (document.getElementById("atendimento")) return;
+
+  const trustSection = document.getElementById("confianca");
+  if (!trustSection) return;
+
+  const section = document.createElement("section");
+  section.className = "intent-paths";
+  section.id = "atendimento";
+  section.setAttribute("aria-labelledby", "coverage-title");
+
+  const headingWrapper = document.createElement("div");
+  headingWrapper.className = "intent-heading";
+
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "eyebrow";
+  eyebrow.textContent = "Onde atendemos";
+
+  const heading = document.createElement("h2");
+  heading.id = "coverage-title";
+  heading.textContent = "Atendimento em todo o Brasil";
+
+  const introduction = document.createElement("p");
+  introduction.textContent = "Natanael Albino desenvolve projetos de decoração em todo o país, com maior presença em Uberlândia, São Paulo e Rio de Janeiro.";
+
+  headingWrapper.append(eyebrow, heading, introduction);
+
+  const grid = document.createElement("div");
+  grid.className = "intent-grid";
+
+  grid.appendChild(
+    createCoverageCard({
+      index: "01",
+      title: COVERAGE.national.label,
+      description: COVERAGE.national.description,
+      href: COVERAGE.national.href,
+      linkLabel: "Ver atendimento nacional",
+    }),
+  );
+
+  COVERAGE.priorityCities.forEach((city, cityIndex) => {
+    grid.appendChild(
+      createCoverageCard({
+        index: String(cityIndex + 2).padStart(2, "0"),
+        title: city.label,
+        description: city.description,
+        href: city.href,
+        linkLabel: `Decoração em ${city.label}`,
+      }),
+    );
+  });
+
+  section.append(headingWrapper, grid);
+  trustSection.before(section);
+}
+
+function appendNavigationLink(container, href, label) {
+  if (!container || container.querySelector(`a[href="${href}"]`)) return;
+
+  const link = document.createElement("a");
+  link.href = href;
+  link.textContent = label;
+  container.appendChild(link);
+}
+
+function installCoverageNavigation() {
+  appendNavigationLink(document.querySelector(".primary-nav"), "#atendimento", "Atendimento");
+  appendNavigationLink(document.querySelector(".mobile-nav nav"), "#atendimento", "Atendimento");
+
+  const footerList = document.querySelector(".footer-nav ul");
+  if (footerList && !footerList.querySelector(`a[href="${COVERAGE.national.href}"]`)) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = COVERAGE.national.href;
+    link.textContent = "Atendimento no Brasil";
+    item.appendChild(link);
+    footerList.appendChild(item);
+  }
+}
+
+function installCoverageStructuredData() {
+  const schemaId = "national-coverage-schema";
+  if (document.getElementById(schemaId)) return;
+
+  const schema = document.createElement("script");
+  schema.id = schemaId;
+  schema.type = "application/ld+json";
+  schema.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://natanaelalbinofestas.com/#decoracao-no-brasil",
+    name: "Decoração autoral de festas no Brasil",
+    serviceType: "Decoração de festas, cenografia e composições com balões",
+    url: "https://natanaelalbinofestas.com/decoracao-de-festas-no-brasil/",
+    provider: {
+      "@id": "https://natanaelalbinofestas.com/#organization",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Brasil",
+    },
+  });
+
+  document.head.appendChild(schema);
+}
+
+installCoverageSection();
+installCoverageNavigation();
+installCoverageStructuredData();
 
 const revealElements = document.querySelectorAll(".reveal");
 
