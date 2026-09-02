@@ -1,16 +1,17 @@
 # Natanael Albino Festas
 
-Landing page institucional da Natanael Albino Festas, publicada em
-`natanaelalbinofestas.com`.
+Landing page institucional da Natanael Albino Festas, publicada em `natanaelalbinofestas.com`.
 
 ## Estrutura
 
-- `index.html`: conteúdo e metadados da página;
-- `styles.css`: identidade visual e responsividade;
-- `script.js`: ano automático e animações progressivas;
+- `index.html`: página principal e metadados;
+- `styles.css` e arquivos CSS especializados: identidade visual e responsividade;
+- `script.js`: comportamento da interface e melhorias progressivas;
 - `analytics.js`: consentimento, Google Analytics 4 e eventos de conversão;
-- `assets/`: fotografia principal nos formatos JPG e WebP;
-- `CNAME`: configuração do domínio personalizado no GitHub Pages.
+- `analytics.css`: estilos compartilhados de consentimento e preferências de privacidade;
+- `ANALYTICS_MEASUREMENT.md`: taxonomia de eventos, funis, atribuição e regras de qualidade de dados;
+- `assets/`: imagens e ícones;
+- `CNAME`: domínio personalizado do GitHub Pages.
 
 ## Publicação no GitHub Pages
 
@@ -20,61 +21,57 @@ Nas configurações do repositório, acesse **Settings → Pages** e selecione:
 - **Branch:** `main`;
 - **Folder:** `/ (root)`.
 
-O domínio personalizado esperado é `natanaelalbinofestas.com`. Depois que o DNS
-estiver apontado para o GitHub Pages, ative **Enforce HTTPS**.
+O domínio personalizado esperado é `natanaelalbinofestas.com`. Depois que o DNS estiver apontado para o GitHub Pages, mantenha **Enforce HTTPS** ativado.
 
-## Medição de conversões
+## Analytics e mensuração
 
-A página está preparada para Google Analytics 4 (GA4), com consentimento explícito.
-Para ativar a coleta:
-
-1. Crie uma propriedade e um fluxo da Web no Google Analytics;
-2. copie o ID de medição no formato `G-XXXXXXXXXX`;
-3. em `index.html`, preencha a meta tag `google-analytics-id`;
-4. publique a alteração e valide os eventos no relatório **Tempo real** ou no **DebugView**;
-5. em **Administrador → Eventos**, marque `generate_lead` e `begin_checkout`
-   como eventos principais.
+O site usa Google Analytics 4 com o ID `G-BGMFE51RB6` e consentimento explícito. A tag só é carregada após o visitante aceitar cookies de análise; sinais e armazenamento de publicidade permanecem desativados.
 
 Eventos implementados:
 
-- `generate_lead`: clique no botão do WhatsApp;
-- `view_item`: visualização da seção do curso;
-- `begin_checkout`: clique no botão que abre o checkout da Hotmart;
-- `scroll_depth`: profundidade de 25%, 50%, 75% e 90%.
+- `whatsapp_click`: clique em qualquer link reconhecido como WhatsApp;
+- `generate_lead`: lead iniciado por WhatsApp;
+- `view_item`: visualização da seção do Método Orgânico na página principal;
+- `begin_checkout`: abertura do checkout da Hotmart;
+- `scroll_depth`: profundidade de 25%, 50%, 75% e 90%;
+- `form_start`: início de formulário explicitamente instrumentado;
+- `form_submit`: envio de formulário explicitamente instrumentado;
+- `form_abandonment`: saída da página após iniciar e não enviar formulário;
+- `sign_up`: disponível para ser disparado quando houver cadastro confirmado;
+- `purchase`: disponível para ser disparado somente após confirmação real de pagamento.
 
-A página não envia dados ao Google antes do aceite. Sinais de publicidade permanecem
-desativados. O visitante pode rever sua escolha em **Preferências de privacidade** no rodapé.
+A camada de Analytics está carregada na home e em todas as páginas de conteúdo e atendimento indexáveis atuais.
 
-> O clique na Hotmart mede o início do checkout, não a compra concluída. As vendas efetivas
-> devem ser conferidas na Hotmart ou integradas ao GA4 pela página de confirmação da plataforma.
+### Eventos principais no GA4
 
-## SEO e compartilhamento
+Recomenda-se marcar como eventos principais:
 
-A página inclui:
+- `generate_lead`;
+- `begin_checkout`, quando o início de compra for relevante como microconversão;
+- `purchase`, somente depois de integrar uma confirmação real da Hotmart;
+- `sign_up`, somente se um fluxo de cadastro for implementado e o cadastro concluído tiver valor de negócio.
 
-- título e descrição voltados à decoração autoral;
-- metadados Open Graph e Twitter Card;
-- imagem social de 1200 × 630 pixels;
-- favicon em SVG;
-- diretiva para indexação e prévia ampla de imagens;
-- dados estruturados JSON-LD para site, empresa, Natanael Albino e curso;
-- `robots.txt` e `sitemap.xml`.
+`whatsapp_click`, `scroll_depth`, `form_start` e `form_abandonment` são eventos diagnósticos e não devem ser tratados automaticamente como conversões finais.
 
-Depois da publicação:
+### Limitações atuais
 
-1. adicione `https://natanaelalbinofestas.com/` ao Google Search Console;
-2. envie `https://natanaelalbinofestas.com/sitemap.xml`;
-3. solicite a indexação da página principal;
-4. valide o JSON-LD no Teste de pesquisa aprimorada do Google;
-5. atualize o cache de compartilhamento das redes quando alterar a imagem social.
+O site estático ainda não possui formulário nem fluxo de cadastro próprio. Portanto, os eventos de formulário e `sign_up` estão preparados, mas não serão emitidos até esses fluxos existirem.
 
+O clique para a Hotmart representa apenas `begin_checkout`. Uma venda não deve ser inferida a partir desse clique. O evento `purchase` exige confirmação da própria Hotmart, de uma página de confirmação confiável ou de uma integração de servidor.
 
-## Próxima etapa de conteúdo
+Consulte `ANALYTICS_MEASUREMENT.md` para o desenho completo dos funis e da atribuição.
 
-Antes da versão comercial definitiva, adicionar:
+## SEO e Search Console
 
-- WhatsApp e Instagram oficiais;
-- cidade e região de atendimento;
-- portfólio de festas;
-- modalidades de serviço;
-- depoimentos e formulário de orçamento.
+O site inclui títulos e descrições, URLs canônicas, Open Graph, dados estruturados, `robots.txt`, `sitemap.xml`, páginas orientadas a intenção de busca e links internos.
+
+No Google Search Console:
+
+1. mantenha a propriedade de `https://natanaelalbinofestas.com/` verificada;
+2. mantenha `https://natanaelalbinofestas.com/sitemap.xml` enviado;
+3. acompanhe indexação, consultas, páginas, países, dispositivos e Core Web Vitals;
+4. vincule a propriedade do Search Console ao fluxo Web correspondente do GA4 para analisar consultas e páginas de destino junto dos dados de comportamento.
+
+## Privacidade
+
+Nenhum nome, e-mail, telefone, texto de formulário ou outro dado pessoal deve ser enviado ao Google Analytics. Parâmetros de campanha e eventos devem conter apenas informações de marketing e contexto da interface.
