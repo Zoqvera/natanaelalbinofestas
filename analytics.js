@@ -62,6 +62,7 @@
   };
 
   let analyticsLoaded = false;
+  let googleTagRequested = false;
   let trackingInitialized = false;
 
   const trackEvent = (eventName, parameters = {}) => {
@@ -139,18 +140,44 @@
     measureScrollDepth();
   };
 
+  const appendGoogleTag = () => {
+    if (googleTagRequested || currentConsent !== "granted") return;
+
+    googleTagRequested = true;
+
+    const googleTag = document.createElement("script");
+    googleTag.async = true;
+    googleTag.fetchPriority = "low";
+    googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
+      measurementId,
+    )}`;
+    document.head.appendChild(googleTag);
+  };
+
+  const scheduleGoogleTag = () => {
+    const schedule = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(appendGoogleTag, { timeout: 3000 });
+        return;
+      }
+
+      window.setTimeout(appendGoogleTag, 0);
+    };
+
+    if (document.readyState === "complete") {
+      schedule();
+    } else {
+      window.addEventListener("load", schedule, { once: true });
+    }
+  };
+
   const loadAnalytics = () => {
     if (analyticsLoaded) return;
 
     analyticsLoaded = true;
 
-    const googleTag = document.createElement("script");
-    googleTag.async = true;
-    googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
-      measurementId,
-    )}`;
-    document.head.appendChild(googleTag);
-
+    // Os comandos entram na fila imediatamente, mas o script de terceiros só é
+    // baixado após o carregamento crítico da página.
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {
       allow_google_signals: false,
@@ -158,6 +185,7 @@
     });
 
     initializeConversionTracking();
+    scheduleGoogleTag();
   };
 
   const updateConsent = (value) => {
