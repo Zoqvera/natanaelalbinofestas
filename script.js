@@ -2,6 +2,40 @@ const year = document.querySelector("[data-year]");
 
 if (year) year.textContent = String(new Date().getFullYear());
 
+const footerMeta = document.querySelector(".footer-meta");
+
+if (footerMeta && !footerMeta.querySelector(".footer-credit")) {
+  const footerCredit = document.createElement("p");
+  footerCredit.className = "footer-credit";
+  footerCredit.innerHTML = 'Desenvolvido por <a href="https://zoqvera.com" target="_blank" rel="noopener noreferrer">Zoqvera</a>.';
+
+  const footerCreditStyles = document.createElement("style");
+  footerCreditStyles.textContent = `
+    .footer-credit {
+      margin: 0;
+      color: rgba(245, 242, 233, 0.58);
+      font-size: 0.68rem;
+      line-height: 1.5;
+    }
+
+    .footer-credit a {
+      color: rgba(245, 242, 233, 0.86);
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+
+    .footer-credit a:hover,
+    .footer-credit a:focus-visible {
+      color: var(--paper-light);
+      text-decoration: underline;
+      text-underline-offset: 0.3rem;
+    }
+  `;
+
+  document.head.appendChild(footerCreditStyles);
+  footerMeta.prepend(footerCredit);
+}
+
 const revealElements = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
