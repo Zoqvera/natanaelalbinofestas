@@ -8,6 +8,11 @@ headerHeroStylesheet.rel = "stylesheet";
 headerHeroStylesheet.href = "header-hero.css";
 document.head.appendChild(headerHeroStylesheet);
 
+const trustFooterStylesheet = document.createElement("link");
+trustFooterStylesheet.rel = "stylesheet";
+trustFooterStylesheet.href = "trust-footer.css";
+document.head.appendChild(trustFooterStylesheet);
+
 const year = document.querySelector("[data-year]");
 
 if (year) year.textContent = String(new Date().getFullYear());
