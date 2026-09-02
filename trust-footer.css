@@ -1,0 +1,311 @@
+/* Confiança + rodapé — fechamento editorial da página */
+
+.trust-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-top: clamp(8rem, 13vw, 12rem);
+  padding-bottom: clamp(8rem, 13vw, 12rem);
+  border-top: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(180, 135, 99, 0.05), transparent 18rem),
+    var(--paper);
+}
+
+.trust-section::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: var(--page-pad);
+  left: var(--page-pad);
+  height: 1px;
+  content: "";
+  background: var(--line);
+}
+
+.trust-section::after {
+  position: absolute;
+  z-index: -1;
+  right: clamp(-10rem, -6vw, -5rem);
+  bottom: clamp(-10rem, -6vw, -5rem);
+  width: clamp(22rem, 36vw, 36rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(143, 98, 70, 0.1);
+  border-radius: 50%;
+  content: "";
+  box-shadow:
+    0 0 0 clamp(3rem, 5vw, 5rem) rgba(180, 135, 99, 0.02),
+    0 0 0 clamp(6rem, 10vw, 10rem) rgba(180, 135, 99, 0.012);
+}
+
+.trust-intro {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+  grid-template-columns: minmax(12rem, 0.5fr) minmax(0, 1.5fr);
+  gap: clamp(3rem, 8vw, 9rem);
+  align-items: start;
+}
+
+.trust-intro .eyebrow {
+  margin: 0;
+  padding-top: 0.65rem;
+  color: var(--accent-strong);
+  font-size: 0.59rem;
+  letter-spacing: 0.21em;
+}
+
+.trust-intro h2 {
+  max-width: 12ch;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 6.2vw, 6.7rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.trust-list {
+  width: min(100%, var(--content-max));
+  margin: clamp(5.5rem, 9vw, 8.5rem) auto 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.trust-list li {
+  min-height: 20rem;
+  padding: clamp(2rem, 3vw, 3rem);
+}
+
+.trust-list li + li {
+  border-left: 1px solid var(--line);
+}
+
+.trust-index {
+  color: rgba(143, 98, 70, 0.66);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+}
+
+.trust-list strong {
+  margin-top: auto;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3vw, 3.25rem);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.trust-list p {
+  max-width: 17rem;
+  margin-top: 1.2rem;
+  color: rgba(36, 25, 20, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* Rodapé */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 9vw, 8rem) var(--page-pad) 2rem;
+  border-top: 0;
+  color: var(--paper-light);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(180, 135, 99, 0.11), transparent 23rem),
+    var(--ink);
+}
+
+.site-footer::before {
+  position: absolute;
+  top: 0;
+  right: var(--page-pad);
+  left: var(--page-pad);
+  height: 1px;
+  content: "";
+  background: rgba(252, 250, 247, 0.14);
+}
+
+.footer-main {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+  padding-bottom: clamp(4rem, 7vw, 6rem);
+  grid-template-columns: minmax(16rem, 1.35fr) minmax(10rem, 0.65fr) minmax(15rem, 0.9fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.footer-lead > p {
+  max-width: 26rem;
+  margin-top: 2.2rem;
+  color: rgba(252, 250, 247, 0.58);
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.42;
+}
+
+.footer-heading {
+  margin-bottom: 1.5rem;
+  color: rgba(252, 250, 247, 0.42);
+  font-size: 0.57rem;
+  letter-spacing: 0.2em;
+}
+
+.footer-nav ul {
+  gap: 0.95rem;
+}
+
+.footer-nav a,
+.footer-contact a,
+.footer-top {
+  color: rgba(252, 250, 247, 0.78);
+  font-size: 0.84rem;
+  text-underline-offset: 0.32rem;
+}
+
+.footer-contact {
+  gap: 0.9rem;
+}
+
+.footer-cnpj {
+  margin-top: 0.85rem;
+  color: rgba(252, 250, 247, 0.42);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+}
+
+.footer-bottom {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+  padding-top: 1.75rem;
+  border-top-color: rgba(252, 250, 247, 0.13);
+}
+
+.footer-bottom > p,
+.privacy-settings {
+  color: rgba(252, 250, 247, 0.42);
+  font-size: 0.57rem;
+}
+
+.footer-top {
+  position: relative;
+  padding-right: 2.1rem;
+}
+
+.footer-top::after {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1.45rem;
+  height: 1.45rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(252, 250, 247, 0.26);
+  border-radius: 50%;
+  content: "↑";
+  font-size: 0.68rem;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 900px) {
+  .trust-intro {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .trust-intro .eyebrow {
+    padding-top: 0;
+  }
+
+  .trust-intro h2 {
+    max-width: 12ch;
+    font-size: clamp(3.4rem, 10vw, 5.8rem);
+  }
+
+  .trust-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trust-list li {
+    min-height: 16rem;
+  }
+
+  .trust-list li:nth-child(3) {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .trust-list li:nth-child(4) {
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-main {
+    grid-template-columns: minmax(0, 1.2fr) minmax(10rem, 0.8fr);
+  }
+
+  .footer-contact {
+    grid-column: 1 / -1;
+    padding-top: 2.25rem;
+    border-top: 1px solid rgba(252, 250, 247, 0.12);
+  }
+}
+
+@media (max-width: 560px) {
+  .trust-section {
+    padding-top: 6rem;
+    padding-bottom: 6.5rem;
+  }
+
+  .trust-intro h2 {
+    font-size: clamp(3rem, 14vw, 4.4rem);
+    line-height: 0.94;
+  }
+
+  .trust-list {
+    margin-top: 4.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  .trust-list li {
+    min-height: 13rem;
+    padding: 1.9rem 0;
+  }
+
+  .trust-list li + li,
+  .trust-list li:nth-child(3) {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .trust-list strong {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .site-footer {
+    padding-top: 5.5rem;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .footer-contact {
+    grid-column: auto;
+  }
+
+  .footer-bottom {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .footer-top {
+    grid-column: auto;
+    grid-row: auto;
+    width: fit-content;
+  }
+}
