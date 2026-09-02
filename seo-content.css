@@ -360,6 +360,105 @@ img {
   text-underline-offset: 4px;
 }
 
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  overflow: hidden;
+  border: 1px solid var(--seo-border);
+  border-radius: var(--seo-radius);
+  background: var(--seo-surface);
+  box-shadow: var(--seo-shadow);
+}
+
+.project-card-media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #e6ddd4;
+}
+
+.project-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card-body {
+  padding: 24px;
+}
+
+.project-card-body h2,
+.project-card-body h3 {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.project-card-body p {
+  margin: 0;
+  color: var(--seo-muted);
+}
+
+.project-hero-media {
+  margin-top: 42px;
+  overflow: hidden;
+  border-radius: var(--seo-radius);
+  background: #e6ddd4;
+  box-shadow: var(--seo-shadow);
+}
+
+.project-hero-media img {
+  width: 100%;
+  max-height: 720px;
+  object-fit: cover;
+}
+
+.project-hero-media.is-portrait img {
+  max-height: 820px;
+  object-fit: contain;
+  background: #e9e0d8;
+}
+
+.project-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 34px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-facts li {
+  padding: 20px;
+  border: 1px solid var(--seo-border);
+  border-radius: 18px;
+  background: var(--seo-surface);
+}
+
+.project-facts strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--seo-accent-dark);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.project-facts span {
+  color: var(--seo-muted);
+}
+
+.project-caption {
+  margin: 12px 0 0;
+  color: var(--seo-muted);
+  font-size: 0.82rem;
+}
+
 .content-footer {
   margin-top: 44px;
   padding: 42px 0 54px;
@@ -409,7 +508,9 @@ img {
 
   .content-grid,
   .content-grid-two,
-  .content-related {
+  .content-related,
+  .project-grid,
+  .project-facts {
     grid-template-columns: 1fr;
   }
 }
@@ -432,7 +533,8 @@ img {
   }
 
   .content-card,
-  .content-callout {
+  .content-callout,
+  .project-card-body {
     padding: 22px;
   }
 }

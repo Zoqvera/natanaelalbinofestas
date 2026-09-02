@@ -328,3 +328,44 @@ if ("serviceWorker" in navigator && window.isSecureContext) {
     });
   }, 2500);
 }
+
+const PROJECT_CASES = Object.freeze([
+  { href: "/projetos/festa-patinhos/", label: "Ver case completo" },
+  { href: "/projetos/festa-construcao/", label: "Ver case completo" },
+  { href: "/projetos/festa-arco-iris/", label: "Ver case completo" },
+]);
+
+function installProjectCaseLinks() {
+  const projectStories = document.querySelectorAll("#projetos .essence-story");
+
+  PROJECT_CASES.forEach((projectCase, index) => {
+    const story = projectStories[index];
+    if (!story) return;
+
+    const captionCopy = story.querySelector("figcaption > div");
+    if (!captionCopy || captionCopy.querySelector(`a[href="${projectCase.href}"]`)) return;
+
+    const actions = document.createElement("div");
+    actions.className = "intent-actions";
+
+    const link = document.createElement("a");
+    link.className = "intent-primary";
+    link.href = projectCase.href;
+    link.textContent = projectCase.label;
+
+    actions.appendChild(link);
+    captionCopy.appendChild(actions);
+  });
+
+  const footerList = document.querySelector(".footer-nav ul");
+  if (footerList && !footerList.querySelector('a[href="/projetos/"]')) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = "/projetos/";
+    link.textContent = "Cases de projetos";
+    item.appendChild(link);
+    footerList.appendChild(item);
+  }
+}
+
+installProjectCaseLinks();
