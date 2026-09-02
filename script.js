@@ -1,3 +1,8 @@
+const designSystemStylesheet = document.createElement("link");
+designSystemStylesheet.rel = "stylesheet";
+designSystemStylesheet.href = "design-system.css";
+document.head.appendChild(designSystemStylesheet);
+
 const year = document.querySelector("[data-year]");
 
 if (year) year.textContent = String(new Date().getFullYear());
