@@ -1,0 +1,284 @@
+/* CTA WhatsApp — conversão com linguagem editorial */
+
+.whatsapp-cta {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: clamp(38rem, 66vw, 52rem);
+  padding-top: clamp(7rem, 11vw, 10rem);
+  padding-bottom: clamp(7rem, 11vw, 10rem);
+  overflow: hidden;
+  border-top: 0;
+  border-bottom: 0;
+  color: var(--paper-light);
+  background:
+    radial-gradient(circle at 86% 18%, rgba(180, 135, 99, 0.17), transparent 25rem),
+    linear-gradient(135deg, rgba(74, 48, 38, 0.32), transparent 46%),
+    var(--ink);
+  grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr);
+  gap: clamp(4rem, 8vw, 9rem);
+  align-items: center;
+  place-items: initial;
+}
+
+.whatsapp-cta::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: clamp(-11rem, -7vw, -5rem);
+  width: clamp(22rem, 38vw, 38rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(252, 250, 247, 0.1);
+  border-radius: 50%;
+  content: "";
+  transform: translateY(-50%);
+  box-shadow:
+    0 0 0 clamp(3.5rem, 6vw, 6rem) rgba(252, 250, 247, 0.025),
+    0 0 0 clamp(7rem, 12vw, 12rem) rgba(252, 250, 247, 0.014);
+}
+
+.whatsapp-cta::after {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: clamp(2.5rem, 5vw, 4rem);
+  width: clamp(4rem, 8vw, 7rem);
+  height: 1px;
+  content: "";
+  background: var(--accent);
+  opacity: 0.72;
+}
+
+.whatsapp-cta-heading,
+.whatsapp-cta-action {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.whatsapp-cta-heading {
+  align-self: center;
+}
+
+.whatsapp-cta-heading .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: clamp(1.7rem, 2.7vw, 2.4rem);
+  color: rgba(252, 250, 247, 0.58);
+  font-size: 0.61rem;
+  letter-spacing: 0.22em;
+}
+
+.whatsapp-cta-heading .eyebrow::before {
+  width: 2.8rem;
+  height: 1px;
+  flex: 0 0 auto;
+  content: "";
+  background: var(--accent);
+}
+
+.whatsapp-cta h2 {
+  max-width: 9.5ch;
+  margin: 0;
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(3.8rem, 6.7vw, 7.4rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.052em;
+  text-wrap: balance;
+}
+
+.whatsapp-cta-action {
+  position: relative;
+  display: flex;
+  min-height: 26rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 4vw, 4.25rem);
+  border: 1px solid rgba(252, 250, 247, 0.14);
+  border-radius: var(--radius-lg);
+  background: rgba(252, 250, 247, 0.035);
+  box-shadow: inset 0 1px 0 rgba(252, 250, 247, 0.045);
+  backdrop-filter: blur(10px);
+}
+
+.whatsapp-cta-action::before {
+  display: block;
+  margin-bottom: clamp(2rem, 3vw, 3.25rem);
+  color: var(--accent);
+  content: "CONVERSA INICIAL";
+  font-family: var(--sans);
+  font-size: 0.59rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.22em;
+}
+
+.whatsapp-cta-action > p {
+  max-width: 31rem;
+  margin: 0 0 clamp(2.5rem, 4vw, 3.5rem);
+  color: rgba(252, 250, 247, 0.7);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  line-height: 1.78;
+}
+
+.whatsapp-cta .whatsapp-button {
+  position: relative;
+  display: grid;
+  width: min(100%, 25rem);
+  min-height: 4.25rem;
+  margin: 0;
+  padding: 0.8rem 4.3rem 0.8rem 1.6rem;
+  overflow: hidden;
+  border: 1px solid var(--paper-light);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: var(--paper-light);
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.16);
+  place-items: center start;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.whatsapp-cta .whatsapp-button::after {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(36, 25, 20, 0.18);
+  border-radius: 50%;
+  content: "→";
+  place-items: center;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  transform: translateY(-50%);
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.whatsapp-cta .whatsapp-button:hover,
+.whatsapp-cta .whatsapp-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--paper-light);
+  background: var(--accent-strong);
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.22);
+  transform: translateY(-2px);
+}
+
+.whatsapp-cta .whatsapp-button:hover::after,
+.whatsapp-cta .whatsapp-button:focus-visible::after {
+  border-color: rgba(252, 250, 247, 0.52);
+  color: var(--ink-soft);
+  background: var(--paper-light);
+  transform: translate(0.15rem, -50%);
+}
+
+@media (max-width: 900px) {
+  .whatsapp-cta {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: clamp(3.5rem, 8vw, 5.5rem);
+  }
+
+  .whatsapp-cta h2 {
+    max-width: 10ch;
+    font-size: clamp(3.8rem, 11vw, 6rem);
+  }
+
+  .whatsapp-cta-action {
+    width: min(100%, 40rem);
+    min-height: 0;
+    padding: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .whatsapp-cta::before {
+    top: auto;
+    right: -12rem;
+    bottom: -8rem;
+    width: 30rem;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .whatsapp-cta {
+    padding-top: 5.75rem;
+    padding-bottom: 6rem;
+    gap: 3.25rem;
+  }
+
+  .whatsapp-cta-heading .eyebrow {
+    gap: 0.65rem;
+    margin-bottom: 1.35rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.18em;
+  }
+
+  .whatsapp-cta-heading .eyebrow::before {
+    width: 2rem;
+  }
+
+  .whatsapp-cta h2 {
+    max-width: 9.5ch;
+    font-size: clamp(3.2rem, 15vw, 4.6rem);
+    line-height: 0.92;
+  }
+
+  .whatsapp-cta-action {
+    padding: 2.2rem 1.4rem;
+    border-radius: 1rem;
+  }
+
+  .whatsapp-cta-action::before {
+    margin-bottom: 1.75rem;
+    font-size: 0.55rem;
+  }
+
+  .whatsapp-cta-action > p {
+    margin-bottom: 2.25rem;
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  .whatsapp-cta .whatsapp-button {
+    width: 100%;
+    min-height: 4rem;
+    padding-left: 1.4rem;
+    font-size: 0.64rem;
+  }
+
+  .whatsapp-cta .whatsapp-button::after {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .whatsapp-cta::after {
+    right: 1.25rem;
+    bottom: 2rem;
+    width: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-cta .whatsapp-button,
+  .whatsapp-cta .whatsapp-button::after {
+    transition: none;
+  }
+}
