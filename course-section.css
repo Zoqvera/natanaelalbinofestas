@@ -1,0 +1,713 @@
+/* Método Orgânico — seção comercial integrada à identidade visual */
+
+.course {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-top: clamp(8rem, 13vw, 12rem);
+  padding-bottom: clamp(8rem, 13vw, 12rem);
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(180, 135, 99, 0.055), transparent 18rem),
+    var(--paper-light);
+}
+
+.course::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: var(--page-pad);
+  left: var(--page-pad);
+  height: 1px;
+  content: "";
+  background: var(--line);
+}
+
+.course::after {
+  position: absolute;
+  z-index: -1;
+  top: clamp(5rem, 9vw, 9rem);
+  right: clamp(-12rem, -7vw, -5rem);
+  width: clamp(22rem, 38vw, 40rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(143, 98, 70, 0.12);
+  border-radius: 50%;
+  content: "";
+  box-shadow:
+    0 0 0 clamp(3rem, 5vw, 5rem) rgba(180, 135, 99, 0.025),
+    0 0 0 clamp(6rem, 10vw, 10rem) rgba(180, 135, 99, 0.015);
+}
+
+.course-inner {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+}
+
+.course-orbits {
+  display: none;
+}
+
+/* Abertura */
+.course-intro {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(4rem, 8vw, 9rem);
+  align-items: center;
+}
+
+.course-portrait {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(36, 25, 20, 0.1);
+  border-radius: 0.7rem;
+  background: #e7ddd4;
+  box-shadow: 0 1.5rem 4rem rgba(36, 25, 20, 0.09);
+}
+
+.course-portrait::before {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.62rem 0.8rem;
+  border: 1px solid rgba(252, 250, 247, 0.36);
+  border-radius: var(--radius-pill);
+  color: var(--paper-light);
+  content: "FORMAÇÃO PROFISSIONAL";
+  background: rgba(36, 25, 20, 0.48);
+  backdrop-filter: blur(8px);
+  font-family: var(--sans);
+  font-size: 0.52rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.16em;
+}
+
+.course-portrait::after {
+  inset: 0;
+  border: 1px solid rgba(252, 250, 247, 0.34);
+  border-radius: inherit;
+}
+
+.course-portrait img {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+.course-presentation {
+  position: relative;
+  padding-top: 2.15rem;
+}
+
+.course-presentation::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--accent-strong);
+  content: "MÉTODO AUTORAL";
+  font-family: var(--sans);
+  font-size: 0.59rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.21em;
+}
+
+.course-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 500;
+}
+
+.course-title-main,
+.course-heading h2 em {
+  display: block;
+  width: auto;
+  max-width: none;
+  white-space: normal;
+}
+
+.course-title-main {
+  max-width: 8.6ch;
+  font-size: clamp(4rem, 6.5vw, 7rem);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.052em;
+}
+
+.course-heading h2 em {
+  max-width: 11ch;
+  margin-top: 0.18em;
+  color: var(--accent-strong);
+  font-size: clamp(2.4rem, 4.25vw, 4.65rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.course-copy {
+  max-width: 42rem;
+  padding-top: clamp(3rem, 5vw, 4.75rem);
+}
+
+.course-copy .course-lead {
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.65rem, 2.5vw, 2.55rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.026em;
+}
+
+.course-copy p:not(.course-lead) {
+  max-width: 38rem;
+  color: rgba(36, 25, 20, 0.66);
+  font-size: clamp(0.96rem, 1vw, 1.04rem);
+  line-height: 1.78;
+}
+
+.course-copy p + p {
+  margin-top: 1.15rem;
+}
+
+/* Benefícios rápidos */
+.course-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: clamp(6rem, 10vw, 9rem) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  list-style: none;
+}
+
+.course-facts li {
+  position: relative;
+  min-height: 11rem;
+  padding: 2.5rem clamp(1.2rem, 2.4vw, 2.5rem) 2.25rem;
+}
+
+.course-facts li + li {
+  border-left: 1px solid var(--line);
+}
+
+.course-facts li::before {
+  display: block;
+  margin-bottom: auto;
+  color: rgba(143, 98, 70, 0.66);
+  content: "0" counter(list-item);
+  font-family: var(--sans);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.course-facts strong {
+  display: block;
+  margin-top: 2.4rem;
+  margin-bottom: 0.55rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.65rem, 2.25vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.course-facts span {
+  color: rgba(36, 25, 20, 0.48);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  line-height: 1.45;
+}
+
+/* Conteúdo do curso */
+.course-learning {
+  margin-top: clamp(8rem, 13vw, 12rem);
+}
+
+.course-learning-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  align-items: end;
+  padding-bottom: clamp(3rem, 5vw, 4.75rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.course-learning-heading .eyebrow {
+  margin-bottom: 1.45rem;
+  color: var(--accent-strong);
+  font-size: 0.59rem;
+  letter-spacing: 0.21em;
+}
+
+.course-learning-heading h3 {
+  max-width: 10ch;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 6vw, 6.5rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  white-space: normal;
+}
+
+.course-learning-heading > p {
+  max-width: 29rem;
+  margin: 0 0 0.35rem;
+  color: rgba(36, 25, 20, 0.62);
+  font-size: 0.98rem;
+  line-height: 1.72;
+}
+
+.course-modules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  list-style: none;
+  counter-reset: course-module;
+}
+
+.course-module {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  min-height: 14.5rem;
+  padding: clamp(2.5rem, 4vw, 4rem) clamp(1rem, 3vw, 3rem);
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  transition: background-color 220ms ease;
+}
+
+.course-module:nth-child(odd) {
+  padding-left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.course-module:nth-child(even) {
+  padding-right: 0;
+}
+
+.course-module:hover {
+  background: rgba(180, 135, 99, 0.045);
+}
+
+.course-module-number {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid rgba(143, 98, 70, 0.32);
+  border-radius: 50%;
+  color: var(--accent-strong);
+  font-family: var(--sans);
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.course-module h4 {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 2.35vw, 2.55rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.course-module p {
+  max-width: 29rem;
+  margin: 1rem 0 0;
+  color: rgba(36, 25, 20, 0.58);
+  font-size: 0.92rem;
+  line-height: 1.68;
+}
+
+/* Fechamento */
+.course-closing {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.32fr) minmax(0, 1fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  overflow: hidden;
+  padding: clamp(3.25rem, 6vw, 6rem);
+  margin-top: clamp(6rem, 10vw, 9rem);
+  border: 1px solid rgba(252, 250, 247, 0.12);
+  border-radius: var(--radius-lg);
+  color: var(--paper-light);
+  background:
+    radial-gradient(circle at 92% 18%, rgba(180, 135, 99, 0.18), transparent 18rem),
+    var(--ink-soft);
+  box-shadow: 0 1.5rem 4rem rgba(36, 25, 20, 0.12);
+}
+
+.course-closing::after {
+  right: -5rem;
+  bottom: -8rem;
+  width: 20rem;
+  height: 20rem;
+  border-color: rgba(252, 250, 247, 0.1);
+  box-shadow:
+    0 0 0 4rem rgba(252, 250, 247, 0.025),
+    0 0 0 8rem rgba(252, 250, 247, 0.015);
+}
+
+.course-closing .course-closing-label {
+  padding-top: 0.45rem;
+  color: var(--accent);
+  font-size: 0.58rem;
+  letter-spacing: 0.19em;
+}
+
+.course-closing p:last-child {
+  max-width: 37rem;
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.course-action {
+  position: relative;
+  display: grid;
+  width: min(100%, 44rem);
+  justify-items: center;
+  gap: 1.15rem;
+  margin: clamp(4rem, 7vw, 6rem) auto 0;
+  text-align: center;
+}
+
+.course-action::before {
+  color: var(--accent-strong);
+  content: "PRONTO PARA COMEÇAR?";
+  font-family: var(--sans);
+  font-size: 0.57rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.course-button {
+  position: relative;
+  display: grid;
+  width: min(100%, 28rem);
+  min-height: 4.6rem;
+  padding: 0.9rem 4.5rem 0.9rem 1.7rem;
+  overflow: hidden;
+  border: 1px solid var(--ink-soft);
+  border-radius: var(--radius-pill);
+  color: var(--paper-light);
+  background: var(--ink-soft);
+  box-shadow: 0 1rem 2.6rem rgba(36, 25, 20, 0.2);
+  place-items: center start;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.course-button::before {
+  display: none;
+}
+
+.course-button::after {
+  position: absolute;
+  top: 50%;
+  right: 0.7rem;
+  display: grid;
+  width: 3.15rem;
+  height: 3.15rem;
+  place-items: center;
+  border: 1px solid rgba(252, 250, 247, 0.4);
+  border-radius: 50%;
+  content: "→";
+  color: var(--paper-light);
+  font-size: 1rem;
+  font-weight: 400;
+  transform: translateY(-50%);
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    transform 220ms ease;
+}
+
+.course-button:hover,
+.course-button:focus-visible {
+  border-color: var(--accent-strong);
+  color: var(--paper-light);
+  background: var(--accent-strong);
+  box-shadow: 0 1.25rem 3rem rgba(36, 25, 20, 0.26);
+  transform: translateY(-2px);
+}
+
+.course-button:hover::after,
+.course-button:focus-visible::after {
+  color: var(--ink-soft);
+  background: var(--paper-light);
+  transform: translate(0.15rem, -50%);
+}
+
+.course-payment-note {
+  max-width: 24rem;
+  margin: 0;
+  color: rgba(36, 25, 20, 0.5);
+  font-size: 0.59rem;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+}
+
+.course-payment-note span {
+  border-color: rgba(143, 98, 70, 0.32);
+  color: var(--accent-strong);
+}
+
+/* Balão decorativo: mantém a assinatura, mas com menos interferência */
+.course-floating-balloon {
+  width: clamp(4rem, 5vw, 5rem);
+  opacity: 0;
+  filter: saturate(0.75);
+  box-shadow:
+    inset -0.6rem -0.7rem 1rem rgba(86, 57, 43, 0.12),
+    0 0.8rem 2rem rgba(36, 25, 20, 0.1);
+}
+
+@media (max-width: 900px) {
+  .course {
+    padding-top: clamp(7rem, 12vw, 9rem);
+    padding-bottom: clamp(7rem, 12vw, 9rem);
+  }
+
+  .course-intro {
+    grid-template-columns: 1fr;
+    gap: clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .course-portrait {
+    width: min(100%, 34rem);
+    margin-inline: auto;
+  }
+
+  .course-presentation {
+    width: min(100%, 44rem);
+  }
+
+  .course-title-main {
+    max-width: 9ch;
+    font-size: clamp(3.8rem, 10vw, 6.1rem);
+  }
+
+  .course-heading h2 em {
+    font-size: clamp(2.4rem, 7vw, 4rem);
+  }
+
+  .course-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .course-facts li:nth-child(3) {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .course-facts li:nth-child(4) {
+    border-top: 1px solid var(--line);
+  }
+
+  .course-learning-heading {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .course-learning-heading h3 {
+    max-width: 9ch;
+    font-size: clamp(3.5rem, 10vw, 5.8rem);
+  }
+
+  .course-learning-heading > p {
+    max-width: 36rem;
+  }
+
+  .course-modules {
+    grid-template-columns: 1fr;
+  }
+
+  .course-module,
+  .course-module:nth-child(odd),
+  .course-module:nth-child(even) {
+    min-height: 0;
+    padding: 2.7rem 0;
+    border-right: 0;
+  }
+
+  .course-closing {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .course {
+    padding-top: 6rem;
+    padding-bottom: 6.5rem;
+  }
+
+  .course::after {
+    top: 3rem;
+    right: -15rem;
+    width: 28rem;
+  }
+
+  .course-intro {
+    gap: 3.25rem;
+  }
+
+  .course-portrait {
+    border-radius: 0.6rem;
+  }
+
+  .course-portrait::before {
+    top: 0.75rem;
+    left: 0.75rem;
+    font-size: 0.47rem;
+  }
+
+  .course-presentation {
+    padding-top: 1.9rem;
+  }
+
+  .course-presentation::before {
+    font-size: 0.54rem;
+  }
+
+  .course-title-main {
+    max-width: 8.5ch;
+    font-size: clamp(3.2rem, 15vw, 4.7rem);
+    line-height: 0.9;
+  }
+
+  .course-heading h2 em {
+    max-width: 10ch;
+    font-size: clamp(2rem, 10vw, 3.1rem);
+  }
+
+  .course-copy {
+    padding-top: 2.6rem;
+  }
+
+  .course-copy .course-lead {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  .course-facts {
+    grid-template-columns: 1fr;
+    margin-top: 4.75rem;
+  }
+
+  .course-facts li {
+    min-height: 0;
+    padding: 1.75rem 0.25rem;
+  }
+
+  .course-facts li + li,
+  .course-facts li:nth-child(3) {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .course-facts li::before {
+    margin-bottom: 0;
+  }
+
+  .course-facts strong {
+    margin-top: 1.3rem;
+  }
+
+  .course-learning {
+    margin-top: 6rem;
+  }
+
+  .course-learning-heading {
+    padding-bottom: 2.5rem;
+  }
+
+  .course-learning-heading h3 {
+    max-width: 8.5ch;
+    font-size: clamp(3rem, 14vw, 4.35rem);
+  }
+
+  .course-module,
+  .course-module:nth-child(odd),
+  .course-module:nth-child(even) {
+    grid-template-columns: 2.65rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 2.25rem 0;
+  }
+
+  .course-module-number {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .course-module h4 {
+    font-size: clamp(1.6rem, 8vw, 2.15rem);
+  }
+
+  .course-closing {
+    padding: 2.5rem 1.6rem;
+    margin-top: 4.75rem;
+    border-radius: 1rem;
+  }
+
+  .course-closing p:last-child {
+    font-size: clamp(1.75rem, 8.5vw, 2.5rem);
+  }
+
+  .course-action {
+    margin-top: 3.5rem;
+  }
+
+  .course-button {
+    width: 100%;
+    min-height: 4.3rem;
+    padding-right: 4.2rem;
+    padding-left: 1.35rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+  }
+
+  .course-button::after {
+    width: 2.9rem;
+    height: 2.9rem;
+  }
+
+  .course-floating-balloon {
+    width: 3.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-module,
+  .course-button,
+  .course-button::after {
+    transition: none;
+  }
+}
