@@ -74,29 +74,31 @@
     if (trackingInitialized) return;
     trackingInitialized = true;
 
-    document.querySelectorAll("[data-analytics-event]").forEach((link) => {
-      link.addEventListener("click", () => {
-        const eventName = link.dataset.analyticsEvent;
-        const commonParameters = {
-          cta_location: link.dataset.analyticsLocation || "unknown",
-          link_url: link.href,
-        };
+    document.addEventListener("click", (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const link = target?.closest("[data-analytics-event]");
+      if (!link) return;
 
-        if (eventName === "generate_lead") {
-          trackEvent("generate_lead", {
-            ...commonParameters,
-            method: link.dataset.analyticsMethod || "website",
-          });
-          return;
-        }
+      const eventName = link.dataset.analyticsEvent;
+      const commonParameters = {
+        cta_location: link.dataset.analyticsLocation || "unknown",
+        link_url: link.href,
+      };
 
-        if (eventName === "begin_checkout") {
-          trackEvent("begin_checkout", {
-            ...commonParameters,
-            items: [courseItem],
-          });
-        }
-      });
+      if (eventName === "generate_lead") {
+        trackEvent("generate_lead", {
+          ...commonParameters,
+          method: link.dataset.analyticsMethod || "website",
+        });
+        return;
+      }
+
+      if (eventName === "begin_checkout") {
+        trackEvent("begin_checkout", {
+          ...commonParameters,
+          items: [courseItem],
+        });
+      }
     });
 
     const courseSection = document.querySelector("#curso");
