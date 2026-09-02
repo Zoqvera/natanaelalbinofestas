@@ -598,10 +598,16 @@
 }
 
 @media (pointer: coarse) {
-  .whatsapp-button,
-  .course-button,
+  .whatsapp-button {
+    min-height: 3.6rem;
+  }
+
+  .course-button {
+    min-height: 4.6rem;
+  }
+
   .consent-button {
-    min-height: 2.75rem;
+    min-height: 2.8rem;
   }
 }
 
