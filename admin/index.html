@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#1d1713">
+  <title>Aquisição e CTAs | Natanael Albino Festas</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3" defer></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">Natanael Albino Festas</p>
+        <h1>Aquisição e CTAs</h1>
+        <p id="pageStatus" class="status-text" role="status">Carregando acesso administrativo...</p>
+      </div>
+      <button id="logoutButton" class="button button-secondary" type="button" hidden>Sair</button>
+    </header>
+
+    <section id="loginPanel" class="panel auth-panel" hidden aria-labelledby="loginTitle">
+      <div>
+        <p class="eyebrow">Área administrativa</p>
+        <h2 id="loginTitle">Entrar no painel</h2>
+        <p class="muted">Use a mesma conta administrativa autorizada no projeto TeacherFlavius.</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <label><span>E-mail</span><input id="emailInput" type="email" autocomplete="username" required></label>
+        <label><span>Senha</span><input id="passwordInput" type="password" autocomplete="current-password" required></label>
+        <button id="loginButton" class="button button-primary" type="submit">Entrar</button>
+      </form>
+    </section>
+
+    <div id="dashboard" hidden>
+      <section class="panel filters-panel" aria-labelledby="periodTitle">
+        <div><p class="eyebrow">Período</p><h2 id="periodTitle">Janela de análise</h2></div>
+        <div class="filters">
+          <label><span>Período</span><select id="periodFilter"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Últimos 365 dias</option></select></label>
+          <button id="refreshButton" class="button button-primary" type="button">Atualizar</button>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="Resumo de desempenho">
+        <article class="metric-card"><span>Visitantes únicos</span><strong id="metricVisitors">0</strong><small>Pessoas identificadas no período</small></article>
+        <article class="metric-card"><span>Visualizações</span><strong id="metricPageViews">0</strong><small>Carregamentos de página</small></article>
+        <article class="metric-card"><span>Cliques em CTAs</span><strong id="metricCtaClicks">0</strong><small>WhatsApp + compra do curso</small></article>
+        <article class="metric-card"><span>Conversão em CTA</span><strong id="metricConversion">0%</strong><small>Visitante → ao menos um CTA</small></article>
+        <article class="metric-card metric-whatsapp"><span>WhatsApp</span><strong id="metricWhatsapp">0</strong><small>Cliques para solicitar contato</small></article>
+        <article class="metric-card metric-course"><span>Comprar curso</span><strong id="metricCheckout">0</strong><small>Cliques que iniciaram checkout</small></article>
+        <article class="metric-card metric-ai"><span>Visitantes via ChatGPT</span><strong id="metricChatgptVisitors">0</strong><small>Origem identificada como ChatGPT</small></article>
+        <article class="metric-card metric-ai"><span>CTAs via ChatGPT</span><strong id="metricChatgptClicks">0</strong><small>Cliques atribuídos ao ChatGPT</small></article>
+      </section>
+
+      <section class="panel" aria-labelledby="dailyTitle">
+        <div class="section-heading"><div><p class="eyebrow">Tendência</p><h2 id="dailyTitle">Evolução diária</h2></div><p class="muted">Visitantes únicos e cliques em CTA por dia.</p></div>
+        <div id="dailyEmpty" class="empty-state">Ainda não há dados diários neste período.</div><div id="dailyTrend" class="daily-trend" hidden></div>
+      </section>
+
+      <section class="panel" aria-labelledby="ctaTitle">
+        <div class="section-heading"><div><p class="eyebrow">Conversão</p><h2 id="ctaTitle">CTAs mais clicados</h2></div><p class="muted">Identifica qual botão e qual posição geram mais ação.</p></div>
+        <div id="ctaEmpty" class="empty-state">Nenhum CTA foi clicado no período.</div>
+        <div id="ctaTableWrap" class="table-wrap" hidden><table><thead><tr><th>CTA</th><th>Posição</th><th>Tipo</th><th>Método</th><th>Cliques</th><th>Visitantes</th></tr></thead><tbody id="ctaTableBody"></tbody></table></div>
+      </section>
+
+      <section class="panel" aria-labelledby="sourceTitle">
+        <div class="section-heading"><div><p class="eyebrow">Aquisição</p><h2 id="sourceTitle">Origem dos visitantes</h2></div><p class="muted">Origem, canal, visitantes e interação com CTAs.</p></div>
+        <div id="sourceEmpty" class="empty-state">Nenhuma origem identificada no período.</div>
+        <div id="sourceTableWrap" class="table-wrap" hidden><table><thead><tr><th>Origem</th><th>Canal</th><th>Visitantes</th><th>Cliques</th><th>Conversão</th></tr></thead><tbody id="sourceTableBody"></tbody></table></div>
+      </section>
+
+      <section class="panel" aria-labelledby="aiTitle">
+        <div class="section-heading"><div><p class="eyebrow">IA</p><h2 id="aiTitle">Assistentes de IA</h2></div><p class="muted">Tráfego detectado a partir de ChatGPT, Perplexity, Gemini, Claude e Copilot.</p></div>
+        <div id="aiEmpty" class="empty-state">Nenhum tráfego de assistente de IA identificado.</div>
+        <div id="aiTableWrap" class="table-wrap" hidden><table><thead><tr><th>Assistente</th><th>Visitantes</th><th>Cliques</th><th>Conversão</th></tr></thead><tbody id="aiTableBody"></tbody></table></div>
+      </section>
+
+      <section class="panel" aria-labelledby="recentTitle">
+        <div class="section-heading"><div><p class="eyebrow">Atividade</p><h2 id="recentTitle">Cliques recentes</h2></div><p class="muted">Últimos 100 cliques em CTA dentro do período selecionado.</p></div>
+        <div id="recentEmpty" class="empty-state">Nenhum clique recente encontrado.</div>
+        <div id="recentTableWrap" class="table-wrap" hidden><table class="recent-table"><thead><tr><th>Data/hora</th><th>Origem</th><th>CTA</th><th>Posição</th><th>Evento</th></tr></thead><tbody id="recentTableBody"></tbody></table></div>
+      </section>
+
+      <aside class="privacy-note">O painel registra somente telemetria de aquisição: identificadores aleatórios, origem, página e CTA. Não armazena nome, telefone, e-mail, IP nem conteúdo das conversas. A coleta só ocorre após consentimento de analytics.</aside>
+    </div>
+  </main>
+</body>
+</html>
