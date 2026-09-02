@@ -1,0 +1,476 @@
+/* UX layer: navigation, intent paths and reduced-friction CTAs */
+
+#projetos,
+#essencia,
+#curso,
+#confianca {
+  scroll-margin-top: 5.75rem;
+}
+
+.site-header {
+  position: fixed;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(245, 242, 233, 0.12);
+  background: rgba(17, 23, 22, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 2.8vw, 2.75rem);
+  margin-left: auto;
+  margin-right: clamp(1.25rem, 2.8vw, 2.75rem);
+}
+
+.primary-nav a {
+  position: relative;
+  padding: 0.55rem 0;
+  color: rgba(245, 242, 233, 0.76);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.primary-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0.35rem;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 180ms ease;
+}
+
+.primary-nav a:hover,
+.primary-nav a:focus-visible {
+  color: var(--paper-light);
+}
+
+.primary-nav a:hover::after,
+.primary-nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.header-cta {
+  display: inline-flex;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid rgba(245, 242, 233, 0.58);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--paper-light);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.header-cta:hover,
+.header-cta:focus-visible {
+  color: var(--paper-light);
+  background: transparent;
+  transform: translateY(-1px);
+}
+
+.primary-nav a:focus-visible,
+.header-cta:focus-visible,
+.hero-action:focus-visible,
+.intent-actions a:focus-visible,
+.mobile-nav summary:focus-visible,
+.mobile-nav a:focus-visible {
+  outline: 2px solid var(--paper-light);
+  outline-offset: 4px;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.hero-action {
+  display: inline-flex;
+  min-height: 3.35rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.35rem;
+  border: 1px solid rgba(245, 242, 233, 0.62);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.hero-action:hover,
+.hero-action:focus-visible {
+  transform: translateY(-2px);
+}
+
+.hero-action-primary {
+  color: var(--ink);
+  background: var(--paper-light);
+}
+
+.hero-action-primary:hover,
+.hero-action-primary:focus-visible {
+  color: var(--paper-light);
+  background: transparent;
+}
+
+.hero-action-secondary {
+  color: var(--paper-light);
+  background: rgba(17, 23, 22, 0.16);
+}
+
+.hero-action-secondary:hover,
+.hero-action-secondary:focus-visible {
+  color: var(--ink);
+  background: var(--paper-light);
+}
+
+.intent-paths {
+  padding: clamp(4rem, 8vw, 7rem) var(--page-pad);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper-light);
+}
+
+.intent-heading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1.55fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.intent-heading .eyebrow {
+  margin: 0 0 0.55rem;
+  color: var(--ink-soft);
+}
+
+.intent-heading h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.intent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.intent-card {
+  display: grid;
+  min-height: 23rem;
+  padding: clamp(1.8rem, 4vw, 3.4rem);
+  grid-template-rows: auto 1fr auto;
+  gap: 2.25rem;
+}
+
+.intent-card + .intent-card {
+  border-left: 1px solid var(--line);
+}
+
+.intent-index {
+  color: rgba(17, 23, 22, 0.42);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.intent-card h3 {
+  max-width: 16ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.3vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.intent-card p {
+  max-width: 31rem;
+  margin: 1.25rem 0 0;
+  color: rgba(17, 23, 22, 0.64);
+  font-size: 0.94rem;
+}
+
+.intent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.intent-actions a {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid rgba(17, 23, 22, 0.34);
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.intent-actions a:hover,
+.intent-actions a:focus-visible {
+  transform: translateY(-1px);
+}
+
+.intent-actions a:focus-visible {
+  outline-color: var(--ink);
+}
+
+.intent-actions .intent-primary {
+  border-color: var(--ink-soft);
+  color: var(--paper-light);
+  background: var(--ink-soft);
+}
+
+.intent-actions .intent-primary:hover,
+.intent-actions .intent-primary:focus-visible {
+  color: var(--ink-soft);
+  background: transparent;
+}
+
+.course-inline-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 2.25rem;
+}
+
+.course-inline-action .course-button {
+  margin: 0;
+}
+
+.course-inline-action .course-payment-note {
+  text-align: left;
+}
+
+@media (max-width: 1100px) {
+  .primary-nav {
+    gap: 1.15rem;
+    margin-right: 1.15rem;
+  }
+
+  .primary-nav a {
+    font-size: 0.62rem;
+  }
+
+  .header-cta {
+    padding-inline: 0.9rem;
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    background: rgba(17, 23, 22, 0.92);
+  }
+
+  .primary-nav,
+  .header-cta {
+    display: none;
+  }
+
+  .mobile-nav {
+    position: relative;
+    display: block;
+    margin-left: auto;
+  }
+
+  .mobile-nav summary {
+    display: inline-flex;
+    min-height: 2.65rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(245, 242, 233, 0.44);
+    border-radius: 999px;
+    color: var(--paper-light);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    list-style: none;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mobile-nav summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav summary::after {
+    margin-left: 0.55rem;
+    content: "+";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .mobile-nav[open] summary::after {
+    content: "−";
+  }
+
+  .mobile-nav nav {
+    position: absolute;
+    top: calc(100% + 0.7rem);
+    right: 0;
+    display: grid;
+    width: min(19rem, calc(100vw - 2.5rem));
+    padding: 0.7rem;
+    border: 1px solid rgba(17, 23, 22, 0.14);
+    color: var(--ink);
+    background: var(--paper-light);
+    box-shadow: 0 1rem 3rem rgba(17, 23, 22, 0.22);
+  }
+
+  .mobile-nav nav a {
+    padding: 0.9rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-nav nav a:focus-visible {
+    outline-color: var(--ink);
+  }
+
+  .mobile-nav nav .mobile-nav-cta {
+    margin-top: 0.7rem;
+    border: 0;
+    border-radius: 999px;
+    color: var(--paper-light);
+    text-align: center;
+    background: var(--ink-soft);
+  }
+
+  .intent-heading {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .intent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intent-card {
+    min-height: 20rem;
+  }
+
+  .intent-card + .intent-card {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  #projetos,
+  #essencia,
+  #curso,
+  #confianca {
+    scroll-margin-top: 5rem;
+  }
+
+  .site-header {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .site-header .brand-mark {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+
+  .hero-copy {
+    margin-top: -3rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: min(100%, 21rem);
+  }
+
+  .hero-action {
+    width: 100%;
+  }
+
+  .intent-paths {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .intent-heading h2 {
+    font-size: clamp(2.35rem, 12vw, 3.6rem);
+  }
+
+  .intent-card {
+    min-height: 0;
+    padding: 2rem 0.25rem;
+    gap: 1.8rem;
+  }
+
+  .intent-card h3 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .intent-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .intent-actions a {
+    width: 100%;
+  }
+
+  .course-inline-action {
+    align-items: stretch;
+  }
+
+  .course-inline-action .course-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-nav a::after,
+  .header-cta,
+  .hero-action,
+  .intent-actions a {
+    transition: none;
+  }
+}
