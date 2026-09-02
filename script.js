@@ -3,6 +3,11 @@ designSystemStylesheet.rel = "stylesheet";
 designSystemStylesheet.href = "design-system.css";
 document.head.appendChild(designSystemStylesheet);
 
+const headerHeroStylesheet = document.createElement("link");
+headerHeroStylesheet.rel = "stylesheet";
+headerHeroStylesheet.href = "header-hero.css";
+document.head.appendChild(headerHeroStylesheet);
+
 const year = document.querySelector("[data-year]");
 
 if (year) year.textContent = String(new Date().getFullYear());
@@ -118,7 +123,7 @@ function installWhatsappFloat() {
       border-radius: 999px;
       background: #25d366;
       color: #07140c;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: var(--sans, "Manrope", Arial, Helvetica, sans-serif);
       font-size: 14px;
       font-weight: 800;
       line-height: 1;
