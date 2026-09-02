@@ -29,23 +29,23 @@ self.addEventListener("fetch", (event) => {
 
   if (url.origin !== self.location.origin || !CACHEABLE_ASSET.test(url.pathname)) return;
 
-  event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(request);
-      const networkResponse = fetch(request).then((response) => {
-        if (response.ok && response.type === "basic") {
-          cache.put(request, response.clone());
-        }
-
-        return response;
-      });
-
-      if (cachedResponse) {
-        event.waitUntil(networkResponse.catch(() => undefined));
-        return cachedResponse;
+  const cachePromise = caches.open(CACHE_NAME);
+  const networkPromise = cachePromise.then((cache) =>
+    fetch(request).then((response) => {
+      if (response.ok && response.type === "basic") {
+        cache.put(request, response.clone());
       }
 
-      return networkResponse;
+      return response;
     }),
+  );
+
+  // Mantém a atualização do cache viva mesmo quando a resposta armazenada é usada.
+  event.waitUntil(networkPromise.catch(() => undefined));
+
+  event.respondWith(
+    cachePromise
+      .then((cache) => cache.match(request))
+      .then((cachedResponse) => cachedResponse || networkPromise),
   );
 });
