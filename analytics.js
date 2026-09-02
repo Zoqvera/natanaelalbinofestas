@@ -1,4 +1,6 @@
 (() => {
+  "use strict";
+
   const measurementId = document
     .querySelector('meta[name="google-analytics-id"]')
     ?.content.trim();
@@ -6,12 +8,29 @@
   if (!measurementId || !/^G-[A-Z0-9]+$/i.test(measurementId)) return;
 
   const consentKey = "na_analytics_consent";
+  const visitorKey = "na_analytics_visitor_v1";
+  const sessionKey = "na_analytics_session_v1";
+  const firstTouchKey = "na_analytics_first_touch_v1";
+  const acquisitionEndpoint =
+    "https://wnigzpvgsbpjdxvjzugt.supabase.co/functions/v1/natanael-analytics-event";
+
   const courseItem = {
     item_id: "H101630859P",
     item_name: "Método Orgânico Natanael Albino",
     item_category: "Curso on-line",
     quantity: 1,
   };
+
+  const aiSources = [
+    { pattern: /(^|\.)chatgpt\.com$|(^|\.)chat\.openai\.com$/, assistant: "chatgpt" },
+    { pattern: /(^|\.)perplexity\.ai$/, assistant: "perplexity" },
+    { pattern: /(^|\.)gemini\.google\.com$/, assistant: "gemini" },
+    { pattern: /(^|\.)claude\.ai$/, assistant: "claude" },
+    { pattern: /(^|\.)copilot\.microsoft\.com$|(^|\.)copilot\.cloud\.microsoft$/, assistant: "copilot" },
+  ];
+
+  const socialHosts = /(^|\.)(instagram\.com|facebook\.com|fb\.com|tiktok\.com|linkedin\.com|youtube\.com|youtu\.be)$/;
+  const searchHosts = /(^|\.)(google\.[a-z.]+|bing\.com|duckduckgo\.com|search\.yahoo\.com)$/;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag =
@@ -28,24 +47,168 @@
     wait_for_update: 500,
   });
 
-  const readStoredConsent = () => {
+  const safeStorageGet = (storage, key) => {
     try {
-      return window.localStorage.getItem(consentKey);
+      return storage.getItem(key);
     } catch {
       return null;
     }
   };
 
+  const safeStorageSet = (storage, key, value) => {
+    try {
+      storage.setItem(key, value);
+    } catch {
+      // Analytics remains functional for the current page without persistence.
+    }
+  };
+
+  const createUuid = () => {
+    if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+
+    const bytes = new Uint8Array(16);
+    window.crypto?.getRandomValues?.(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  };
+
+  const getOrCreateId = (storage, key) => {
+    const existing = safeStorageGet(storage, key);
+    if (existing && /^[0-9a-f-]{36}$/i.test(existing)) return existing;
+
+    const created = createUuid();
+    safeStorageSet(storage, key, created);
+    return created;
+  };
+
+  const cleanText = (value, maxLength = 120) =>
+    String(value ?? "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, maxLength);
+
+  const referrerHost = () => {
+    if (!document.referrer) return "";
+    try {
+      return new URL(document.referrer).hostname.toLowerCase();
+    } catch {
+      return "";
+    }
+  };
+
+  const identifyAiAssistant = (source, host) => {
+    const candidates = [source, host].filter(Boolean);
+    for (const candidate of candidates) {
+      const normalized = candidate.toLowerCase();
+      const matched = aiSources.find(({ pattern }) => pattern.test(normalized));
+      if (matched) return matched.assistant;
+      if (/chatgpt|openai/.test(normalized)) return "chatgpt";
+      if (/perplexity/.test(normalized)) return "perplexity";
+      if (/gemini/.test(normalized)) return "gemini";
+      if (/claude|anthropic/.test(normalized)) return "claude";
+      if (/copilot/.test(normalized)) return "copilot";
+    }
+    return null;
+  };
+
+  const classifyTraffic = ({ source, medium, refHost, aiAssistant, hasUtm }) => {
+    if (aiAssistant) return "ai_assistant";
+    if (/cpc|ppc|paid|ads?/i.test(medium)) return "paid_search";
+    if (hasUtm) return "campaign";
+    if (socialHosts.test(refHost) || /instagram|facebook|tiktok|linkedin|youtube/i.test(source)) return "social";
+    if (searchHosts.test(refHost) || /google|bing|duckduckgo|yahoo/i.test(source)) return "organic_search";
+    if (source === "direct") return "direct";
+    return "referral";
+  };
+
+  const captureAcquisition = () => {
+    const params = new URLSearchParams(window.location.search || "");
+    const refHost = referrerHost();
+    const hasUtm = params.has("utm_source");
+    let source = cleanText(params.get("utm_source"), 80).toLowerCase();
+    let medium = cleanText(params.get("utm_medium"), 80).toLowerCase();
+
+    if (!source) {
+      if (refHost && refHost !== window.location.hostname.toLowerCase()) {
+        source = refHost;
+        medium = medium || "referral";
+      } else {
+        source = "direct";
+        medium = medium || "none";
+      }
+    }
+
+    const aiAssistant = identifyAiAssistant(source, refHost);
+    const current = {
+      source,
+      medium: medium || "unknown",
+      campaign: cleanText(params.get("utm_campaign"), 100) || "not_set",
+      traffic_channel: classifyTraffic({ source, medium, refHost, aiAssistant, hasUtm }),
+      ai_assistant: aiAssistant,
+      landing_page: window.location.pathname || "/",
+    };
+
+    const savedFirstTouch = safeStorageGet(window.localStorage, firstTouchKey);
+    if (savedFirstTouch) {
+      try {
+        return { ...current, first_touch: JSON.parse(savedFirstTouch) };
+      } catch {
+        // Replace malformed local state below.
+      }
+    }
+
+    safeStorageSet(window.localStorage, firstTouchKey, JSON.stringify(current));
+    return { ...current, first_touch: current };
+  };
+
+  const readStoredConsent = () => safeStorageGet(window.localStorage, consentKey);
   let currentConsent = readStoredConsent();
+  let pageViewSent = false;
 
   const saveConsent = (value) => {
     currentConsent = value;
+    safeStorageSet(window.localStorage, consentKey, value);
+  };
 
-    try {
-      window.localStorage.setItem(consentKey, value);
-    } catch {
-      // A escolha continua válida durante a página atual.
-    }
+  const sendAcquisitionEvent = (eventName, parameters = {}) => {
+    if (currentConsent !== "granted") return;
+    if (!["page_view", "generate_lead", "begin_checkout"].includes(eventName)) return;
+
+    const acquisition = captureAcquisition();
+    const visitorId = getOrCreateId(window.localStorage, visitorKey);
+    const sessionId = getOrCreateId(window.sessionStorage, sessionKey);
+    const eventId = createUuid();
+
+    const payload = {
+      event_id: eventId,
+      event_name: eventName,
+      visitor_id: visitorId,
+      session_id: sessionId,
+      source: acquisition.source,
+      medium: acquisition.medium,
+      campaign: acquisition.campaign,
+      traffic_channel: acquisition.traffic_channel,
+      ai_assistant: acquisition.ai_assistant,
+      page_path: window.location.pathname || "/",
+      landing_page: acquisition.first_touch?.landing_page || acquisition.landing_page || "/",
+      cta_location: cleanText(parameters.cta_location, 80) || null,
+      cta_label: cleanText(parameters.cta_label, 120) || null,
+      cta_method: cleanText(parameters.method, 50) || null,
+      occurred_at: new Date().toISOString(),
+    };
+
+    fetch(acquisitionEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+      credentials: "omit",
+      referrerPolicy: "strict-origin-when-cross-origin",
+    }).catch(() => {
+      // First-party reporting must never block navigation or user actions.
+    });
   };
 
   const deleteAnalyticsCookies = () => {
@@ -68,6 +231,7 @@
   const trackEvent = (eventName, parameters = {}) => {
     if (!analyticsLoaded || currentConsent !== "granted") return;
     window.gtag("event", eventName, parameters);
+    sendAcquisitionEvent(eventName, parameters);
   };
 
   const initializeConversionTracking = () => {
@@ -82,13 +246,14 @@
       const eventName = link.dataset.analyticsEvent;
       const commonParameters = {
         cta_location: link.dataset.analyticsLocation || "unknown",
+        cta_label: cleanText(link.textContent, 120) || "CTA sem rótulo",
         link_url: link.href,
       };
 
       if (eventName === "generate_lead") {
         trackEvent("generate_lead", {
           ...commonParameters,
-          method: link.dataset.analyticsMethod || "website",
+          method: link.dataset.analyticsMethod || "whatsapp",
         });
         return;
       }
@@ -96,6 +261,7 @@
       if (eventName === "begin_checkout") {
         trackEvent("begin_checkout", {
           ...commonParameters,
+          method: "hotmart",
           items: [courseItem],
         });
       }
@@ -124,15 +290,12 @@
     const depthMilestones = [25, 50, 75, 90];
 
     const measureScrollDepth = () => {
-      const scrollableHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollableHeight <= 0) return;
 
       const currentDepth = Math.round((window.scrollY / scrollableHeight) * 100);
-
       depthMilestones.forEach((milestone) => {
         if (currentDepth < milestone || reachedDepths.has(milestone)) return;
-
         reachedDepths.add(milestone);
         trackEvent("scroll_depth", { percent_scrolled: milestone });
       });
@@ -144,15 +307,12 @@
 
   const appendGoogleTag = () => {
     if (googleTagRequested || currentConsent !== "granted") return;
-
     googleTagRequested = true;
 
     const googleTag = document.createElement("script");
     googleTag.async = true;
     googleTag.fetchPriority = "low";
-    googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
-      measurementId,
-    )}`;
+    googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
     document.head.appendChild(googleTag);
   };
 
@@ -162,24 +322,17 @@
         window.requestIdleCallback(appendGoogleTag, { timeout: 3000 });
         return;
       }
-
       window.setTimeout(appendGoogleTag, 0);
     };
 
-    if (document.readyState === "complete") {
-      schedule();
-    } else {
-      window.addEventListener("load", schedule, { once: true });
-    }
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
   };
 
   const loadAnalytics = () => {
     if (analyticsLoaded) return;
-
     analyticsLoaded = true;
 
-    // Os comandos entram na fila imediatamente, mas o script de terceiros só é
-    // baixado após o carregamento crítico da página.
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {
       allow_google_signals: false,
@@ -188,6 +341,11 @@
 
     initializeConversionTracking();
     scheduleGoogleTag();
+
+    if (!pageViewSent) {
+      pageViewSent = true;
+      sendAcquisitionEvent("page_view");
+    }
   };
 
   const updateConsent = (value) => {
@@ -199,11 +357,8 @@
       ad_personalization: "denied",
     });
 
-    if (value === "granted") {
-      loadAnalytics();
-    } else {
-      deleteAnalyticsCookies();
-    }
+    if (value === "granted") loadAnalytics();
+    else deleteAnalyticsCookies();
   };
 
   const removeConsentBanner = () => {
@@ -253,19 +408,13 @@
   };
 
   const privacySettings = document.querySelector("[data-analytics-settings]");
-
   if (privacySettings) {
     privacySettings.hidden = false;
     privacySettings.addEventListener("click", showConsentBanner);
   }
 
   const savedConsent = currentConsent;
-
-  if (savedConsent === "granted") {
-    updateConsent("granted");
-  } else if (savedConsent === "denied") {
-    updateConsent("denied");
-  } else {
-    showConsentBanner();
-  }
+  if (savedConsent === "granted") updateConsent("granted");
+  else if (savedConsent === "denied") updateConsent("denied");
+  else showConsentBanner();
 })();
