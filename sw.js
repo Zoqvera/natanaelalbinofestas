@@ -1,5 +1,5 @@
-const CACHE_NAME = "naf-runtime-v1";
-const CACHEABLE_ASSET = /\.(?:css|js|webp|jpe?g|png|svg|woff2?)$/i;
+const CACHE_NAME = "naf-media-v1";
+const CACHEABLE_MEDIA = /\.(?:webp|jpe?g|png|svg)$/i;
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -12,7 +12,11 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("naf-runtime-") && key !== CACHE_NAME)
+            .filter(
+              (key) =>
+                (key.startsWith("naf-runtime-") || key.startsWith("naf-media-")) &&
+                key !== CACHE_NAME,
+            )
             .map((key) => caches.delete(key)),
         ),
       )
@@ -27,7 +31,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
 
-  if (url.origin !== self.location.origin || !CACHEABLE_ASSET.test(url.pathname)) return;
+  if (url.origin !== self.location.origin || !CACHEABLE_MEDIA.test(url.pathname)) return;
 
   const cachePromise = caches.open(CACHE_NAME);
   const networkPromise = cachePromise.then((cache) =>
@@ -40,7 +44,7 @@ self.addEventListener("fetch", (event) => {
     }),
   );
 
-  // Mantém a atualização do cache viva mesmo quando a resposta armazenada é usada.
+  // Retorna a mídia armazenada imediatamente e atualiza a cópia em segundo plano.
   event.waitUntil(networkPromise.catch(() => undefined));
 
   event.respondWith(
