@@ -1,0 +1,124 @@
+.consent-banner {
+  position: fixed;
+  z-index: 1000;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  width: min(100% - 2rem, 62rem);
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(245, 242, 233, 0.18);
+  border-radius: 1rem;
+  color: #f5f2e9;
+  background: rgba(17, 23, 22, 0.97);
+  box-shadow: 0 1.25rem 3rem rgba(17, 23, 22, 0.28);
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.consent-banner.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.consent-copy strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.86rem;
+}
+
+.consent-copy p {
+  margin: 0;
+  color: rgba(245, 242, 233, 0.7);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.consent-actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.consent-button,
+.analytics-settings-link {
+  font: inherit;
+}
+
+.consent-button {
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(245, 242, 233, 0.26);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.consent-button-primary {
+  color: #111716;
+  background: #f5f2e9;
+}
+
+.consent-button-secondary {
+  color: #f5f2e9;
+  background: transparent;
+}
+
+.consent-button:focus-visible,
+.analytics-settings-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.analytics-settings-link {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-underline-offset: 0.24rem;
+  opacity: 0.72;
+}
+
+.analytics-settings-link:hover,
+.analytics-settings-link:focus-visible {
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .consent-banner {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    grid-template-columns: 1fr;
+    overscroll-behavior: contain;
+  }
+
+  .consent-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .consent-button {
+    flex: 1 1 10rem;
+  }
+}
+
+@supports (padding: max(0px)) {
+  .consent-banner {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
+  }
+}
