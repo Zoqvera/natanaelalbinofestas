@@ -28,11 +28,11 @@
         <h2 id="loginTitle">Entrar no painel</h2>
         <p class="muted">Use a mesma conta administrativa autorizada no projeto TeacherFlavius.</p>
       </div>
-      <form id="loginForm" class="login-form">
+      <div id="loginControls" class="login-form" role="group" aria-labelledby="loginTitle">
         <label><span>E-mail</span><input id="emailInput" type="email" autocomplete="username" required></label>
         <label><span>Senha</span><input id="passwordInput" type="password" autocomplete="current-password" required></label>
-        <button id="loginButton" class="button button-primary" type="submit">Entrar</button>
-      </form>
+        <button id="loginButton" class="button button-primary" type="button">Entrar</button>
+      </div>
     </section>
 
     <div id="dashboard" hidden>
