@@ -13,8 +13,9 @@
   const elements = {
     status: byId("pageStatus"),
     loginPanel: byId("loginPanel"),
-    loginForm: byId("loginForm"),
     loginButton: byId("loginButton"),
+    emailInput: byId("emailInput"),
+    passwordInput: byId("passwordInput"),
     logoutButton: byId("logoutButton"),
     dashboard: byId("dashboard"),
     periodFilter: byId("periodFilter"),
@@ -25,14 +26,18 @@
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
   };
+
   const formatNumber = (value) => numberValue(value).toLocaleString("pt-BR");
-  const formatPercent = (value) => `${numberValue(value).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
-  const escapeHtml = (value) => String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  const formatPercent = (value) =>
+    `${numberValue(value).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
+
+  const escapeHtml = (value) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   const formatDate = (value) => {
     if (!value) return "";
@@ -76,32 +81,35 @@
     return value || "Acesso direto";
   };
 
-  const channelLabel = (value) => ({
-    ai_assistant: "Assistente de IA",
-    organic_search: "Busca orgânica",
-    paid_search: "Busca paga",
-    social: "Rede social",
-    referral: "Referência",
-    campaign: "Campanha",
-    direct: "Direto",
-  })[value] || value || "Direto";
+  const channelLabel = (value) =>
+    ({
+      ai_assistant: "Assistente de IA",
+      organic_search: "Busca orgânica",
+      paid_search: "Busca paga",
+      social: "Rede social",
+      referral: "Referência",
+      campaign: "Campanha",
+      direct: "Direto",
+    })[value] || value || "Direto";
 
-  const ctaLocationLabel = (value) => ({
-    header: "Cabeçalho",
-    mobile_menu: "Menu mobile",
-    hero: "Hero",
-    intent_event: "Card de orçamento",
-    festas_cta: "CTA de festas",
-    footer: "Rodapé",
-    whatsapp_float: "WhatsApp flutuante",
-    course_intro_cta: "Curso — início",
-    course_final_cta: "Curso — final",
-  })[value] || value || "Não identificado";
+  const ctaLocationLabel = (value) =>
+    ({
+      header: "Cabeçalho",
+      mobile_menu: "Menu mobile",
+      hero: "Hero",
+      intent_event: "Card de orçamento",
+      festas_cta: "CTA de festas",
+      footer: "Rodapé",
+      whatsapp_float: "WhatsApp flutuante",
+      course_intro_cta: "Curso — início",
+      course_final_cta: "Curso — final",
+    })[value] || value || "Não identificado";
 
-  const eventLabel = (value) => ({
-    generate_lead: "WhatsApp",
-    begin_checkout: "Checkout do curso",
-  })[value] || value || "CTA";
+  const eventLabel = (value) =>
+    ({
+      generate_lead: "WhatsApp",
+      begin_checkout: "Checkout do curso",
+    })[value] || value || "CTA";
 
   const setStatus = (message, isError = false) => {
     if (!elements.status) return;
@@ -120,12 +128,14 @@
     const empty = byId(emptyId);
     const data = Array.isArray(rows) ? rows : [];
     if (!body || !wrap || !empty) return;
+
     if (!data.length) {
       body.innerHTML = "";
       wrap.hidden = true;
       empty.hidden = false;
       return;
     }
+
     body.innerHTML = data.map(rowRenderer).join("");
     wrap.hidden = false;
     empty.hidden = true;
@@ -136,6 +146,7 @@
     const empty = byId("dailyEmpty");
     const data = Array.isArray(rows) ? rows : [];
     if (!container || !empty) return;
+
     if (!data.length) {
       container.innerHTML = "";
       container.hidden = true;
@@ -143,21 +154,29 @@
       return;
     }
 
-    const maximum = data.reduce((max, row) => Math.max(max, numberValue(row.visitors), numberValue(row.cta_clicks)), 1);
-    container.innerHTML = data.map((row) => {
-      const visitors = numberValue(row.visitors);
-      const clicks = numberValue(row.cta_clicks);
-      const visitorWidth = Math.max(visitors ? 2 : 0, Math.round((visitors / maximum) * 100));
-      const clickWidth = Math.max(clicks ? 2 : 0, Math.round((clicks / maximum) * 100));
-      return `<div class="daily-row">
-        <span>${escapeHtml(formatDate(row.date))}</span>
-        <span class="daily-track" aria-label="${visitors} visitantes e ${clicks} cliques">
-          <span class="daily-visitors" style="width:${visitorWidth}%"></span>
-          <span class="daily-clicks" style="width:${clickWidth}%"></span>
-        </span>
-        <span class="daily-value">${formatNumber(visitors)} vis. · ${formatNumber(clicks)} cliques</span>
-      </div>`;
-    }).join("");
+    const maximum = data.reduce(
+      (max, row) => Math.max(max, numberValue(row.visitors), numberValue(row.cta_clicks)),
+      1,
+    );
+
+    container.innerHTML = data
+      .map((row) => {
+        const visitors = numberValue(row.visitors);
+        const clicks = numberValue(row.cta_clicks);
+        const visitorWidth = Math.max(visitors ? 2 : 0, Math.round((visitors / maximum) * 100));
+        const clickWidth = Math.max(clicks ? 2 : 0, Math.round((clicks / maximum) * 100));
+
+        return `<div class="daily-row">
+          <span>${escapeHtml(formatDate(row.date))}</span>
+          <span class="daily-track" aria-label="${visitors} visitantes e ${clicks} cliques">
+            <span class="daily-visitors" style="width:${visitorWidth}%"></span>
+            <span class="daily-clicks" style="width:${clickWidth}%"></span>
+          </span>
+          <span class="daily-value">${formatNumber(visitors)} vis. · ${formatNumber(clicks)} cliques</span>
+        </div>`;
+      })
+      .join("");
+
     container.hidden = false;
     empty.hidden = true;
   };
@@ -179,7 +198,8 @@
       bodyId: "ctaTableBody",
       wrapId: "ctaTableWrap",
       emptyId: "ctaEmpty",
-      rowRenderer: (row) => `<tr><td class="primary-cell">${escapeHtml(row.label)}</td><td>${escapeHtml(ctaLocationLabel(row.location))}</td><td>${escapeHtml(eventLabel(row.event_name))}</td><td>${escapeHtml(row.method || "website")}</td><td>${formatNumber(row.clicks)}</td><td>${formatNumber(row.visitors)}</td></tr>`,
+      rowRenderer: (row) =>
+        `<tr><td class="primary-cell">${escapeHtml(row.label)}</td><td>${escapeHtml(ctaLocationLabel(row.location))}</td><td>${escapeHtml(eventLabel(row.event_name))}</td><td>${escapeHtml(row.method || "website")}</td><td>${formatNumber(row.clicks)}</td><td>${formatNumber(row.visitors)}</td></tr>`,
     });
 
     renderTable({
@@ -187,7 +207,8 @@
       bodyId: "sourceTableBody",
       wrapId: "sourceTableWrap",
       emptyId: "sourceEmpty",
-      rowRenderer: (row) => `<tr><td class="primary-cell">${escapeHtml(sourceLabel(row.source))}</td><td>${escapeHtml(channelLabel(row.channel))}</td><td>${formatNumber(row.visitors)}</td><td>${formatNumber(row.clicks)}</td><td>${formatPercent(row.conversion_rate)}</td></tr>`,
+      rowRenderer: (row) =>
+        `<tr><td class="primary-cell">${escapeHtml(sourceLabel(row.source))}</td><td>${escapeHtml(channelLabel(row.channel))}</td><td>${formatNumber(row.visitors)}</td><td>${formatNumber(row.clicks)}</td><td>${formatPercent(row.conversion_rate)}</td></tr>`,
     });
 
     renderTable({
@@ -195,7 +216,8 @@
       bodyId: "aiTableBody",
       wrapId: "aiTableWrap",
       emptyId: "aiEmpty",
-      rowRenderer: (row) => `<tr><td class="primary-cell">${escapeHtml(sourceLabel(row.assistant))}</td><td>${formatNumber(row.visitors)}</td><td>${formatNumber(row.clicks)}</td><td>${formatPercent(row.conversion_rate)}</td></tr>`,
+      rowRenderer: (row) =>
+        `<tr><td class="primary-cell">${escapeHtml(sourceLabel(row.assistant))}</td><td>${formatNumber(row.visitors)}</td><td>${formatNumber(row.clicks)}</td><td>${formatPercent(row.conversion_rate)}</td></tr>`,
     });
 
     renderTable({
@@ -212,7 +234,9 @@
 
   const friendlyError = (error) => {
     const message = String(error?.message || error?.details || error || "Erro desconhecido");
-    if (/Acesso negado|42501|permission/i.test(message)) return "Esta conta não está autorizada a acessar o painel Natanael.";
+    if (/Acesso negado|42501|permission/i.test(message)) {
+      return "Esta conta não está autorizada a acessar o painel Natanael.";
+    }
     if (/Invalid login credentials/i.test(message)) return "E-mail ou senha inválidos.";
     return message;
   };
@@ -234,8 +258,11 @@
     const period = Math.min(365, Math.max(1, Number(elements.periodFilter?.value) || 30));
     elements.refreshButton.disabled = true;
     setStatus("Atualizando dados de aquisição...");
+
     try {
-      const { data, error } = await client.rpc("get_natanael_acquisition_summary", { period_days: period });
+      const { data, error } = await client.rpc("get_natanael_acquisition_summary", {
+        period_days: period,
+      });
       if (error) throw error;
       renderDashboard(data);
       showDashboard();
@@ -250,24 +277,39 @@
     }
   };
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const email = byId("emailInput")?.value.trim();
-    const password = byId("passwordInput")?.value;
-    if (!email || !password) return;
+  const clearCredentials = () => {
+    if (elements.emailInput) elements.emailInput.value = "";
+    if (elements.passwordInput) elements.passwordInput.value = "";
+  };
+
+  const handleLogin = async () => {
+    const email = elements.emailInput?.value.trim();
+    const password = elements.passwordInput?.value;
+    if (!email || !password) {
+      setStatus("Informe e-mail e senha.", true);
+      return;
+    }
+
     elements.loginButton.disabled = true;
     setStatus("Validando acesso...");
+
     try {
       const { error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
       await loadReport();
-      elements.loginForm.reset();
+      clearCredentials();
     } catch (error) {
       showLogin(friendlyError(error));
       elements.status.classList.add("error");
     } finally {
       elements.loginButton.disabled = false;
     }
+  };
+
+  const handleCredentialKeydown = (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    handleLogin();
   };
 
   const handleLogout = async () => {
@@ -283,7 +325,10 @@
       elements.status.classList.add("error");
       return;
     }
-    elements.loginForm?.addEventListener("submit", handleLogin);
+
+    elements.loginButton?.addEventListener("click", handleLogin);
+    elements.emailInput?.addEventListener("keydown", handleCredentialKeydown);
+    elements.passwordInput?.addEventListener("keydown", handleCredentialKeydown);
     elements.logoutButton?.addEventListener("click", handleLogout);
     elements.refreshButton?.addEventListener("click", loadReport);
     elements.periodFilter?.addEventListener("change", loadReport);
@@ -293,6 +338,7 @@
       showLogin();
       return;
     }
+
     await loadReport();
   };
 
