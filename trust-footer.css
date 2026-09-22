@@ -108,6 +108,143 @@
   line-height: 1.65;
 }
 
+/* Instagram — prova social após a seção de confiança */
+.instagram-card-wrap {
+  width: min(100%, 900px);
+  margin: clamp(4rem, 7vw, 6rem) auto 0;
+}
+
+.instagram-card-link {
+  display: block;
+  padding: 3px;
+  border-radius: 30px;
+  color: inherit;
+  background: linear-gradient(
+    135deg,
+    #feda75 0%,
+    #fa7e1e 22%,
+    #d62976 48%,
+    #962fbf 73%,
+    #4f5bd5 100%
+  );
+  text-decoration: none;
+  box-shadow: 0 24px 60px rgba(150, 47, 191, 0.18);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.instagram-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 70px rgba(150, 47, 191, 0.25);
+}
+
+.instagram-card-link:focus-visible {
+  outline: 4px solid #d62976;
+  outline-offset: 5px;
+}
+
+.instagram-card {
+  padding: 2rem 2.35rem;
+  border-radius: 27px;
+  background: var(--paper-light);
+}
+
+.instagram-profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.15rem;
+  align-items: center;
+}
+
+.instagram-avatar {
+  width: 4.75rem;
+  height: 4.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #feda75, #fa7e1e 28%, #d62976 54%, #962fbf 76%, #4f5bd5);
+  box-shadow: 0 8px 24px rgba(214, 41, 118, 0.22);
+}
+
+.instagram-avatar svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.instagram-copy {
+  min-width: 0;
+}
+
+.instagram-kicker {
+  margin: 0 0 0.15rem;
+  color: #d62976;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.instagram-copy h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 3.4vw, 2.65rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.instagram-copy p:last-child {
+  margin: 0.55rem 0 0;
+  color: rgba(36, 25, 20, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 560px) {
+  .instagram-card-wrap {
+    margin-top: 3.5rem;
+  }
+
+  .instagram-card {
+    padding: 1.4rem 1.15rem;
+  }
+
+  .instagram-avatar {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .instagram-avatar svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .instagram-profile {
+    gap: 0.9rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .instagram-profile {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .instagram-avatar {
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .instagram-card-link {
+    transition: none;
+  }
+}
+
 /* Rodapé */
 .site-footer {
   position: relative;
